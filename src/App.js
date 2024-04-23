@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import './App.css';
 import axios from 'axios';
+import FileUpload from './components/FileUpload';
 
 function App() {
   useEffect(() => {
@@ -11,10 +12,8 @@ function App() {
   }, [])
   return (
     <div className="App">
-      <h1>
-        Hello!
-      </h1>
-      <p>wagwan</p>
+      <h1>Upload a config file</h1>
+      <FileUpload />
     </div>
   );
 }
