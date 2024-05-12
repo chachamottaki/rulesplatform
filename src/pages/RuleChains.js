@@ -4,7 +4,7 @@ import NodeSidebar from '../components/NodeSidebar';
 
 const RuleChains = () => {
   return (
-    <div>
+    <div style={{ display: 'flex', width: '100vw', height: '100vh' }}>
       <NodeSidebar />
       <Canvas />
     </div>

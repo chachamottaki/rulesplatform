@@ -10,7 +10,7 @@ const nodes = [
 
 const NodeSidebar = () => {
   return (
-    <div style={{ width: '200px', height: '100vh', overflowY: 'auto', backgroundColor: '#f4f4f4', padding: '10px', borderRight: '1px solid #ddd' }}>
+    <div className="node-sidebar">
       {nodes.map(node => (
         <Node key={node.id} id={node.id} name={node.name} type={node.type} />
       ))}

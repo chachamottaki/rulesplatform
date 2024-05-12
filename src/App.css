@@ -135,3 +135,18 @@ li {
   border: 1px solid #ccc;
   height: 400px; 
 }
+
+.node-sidebar {
+  width: 200px;
+  height: 100vh;
+  overflow-y: auto;
+  background-color: #f4f4f4;
+  border-right: 1px solid #ccc;
+}
+
+.canvas-area {
+  flex: 1;
+  height: 100vh;
+  background-color: #fff;
+  border-left: 1px solid #ccc;
+}

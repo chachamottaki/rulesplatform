@@ -24,11 +24,6 @@ function App() {
       <DndProvider backend={HTML5Backend}>
         <Router>
           <div className="App">
-            <ToolbarComponent
-              onSave={() => alert("Save functionality here")}
-              onEdit={() => alert("Edit functionality here")}
-              onDelete={() => alert("Delete functionality here")}
-            />
             <Sidebar />
             <div style={{ marginLeft: '200px', padding: '20px' }}>
               <Routes>
