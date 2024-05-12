@@ -3,12 +3,11 @@ import './App.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
-import { Provider } from 'react-redux';
-import store from '../src/redux/store';
-import Sidebar from '../src/components/Sidebar';
-import ToolbarComponent from './components/ToolbarComponent';
-import Home from '../src/pages/Home';
-import RuleChains from '../src/pages/RuleChains';
+//import { Provider } from 'react-redux';
+import Sidebar from './components/Sidebar';
+//import ToolbarComponent from './components/ToolbarComponent';
+import Home from './pages/Home';
+import RuleChains from './pages/RuleChains';
 import axios from 'axios';
 
 function App() {
@@ -20,7 +19,7 @@ function App() {
   }, []);
 
   return (
-    <Provider store={store}>
+    
       <DndProvider backend={HTML5Backend}>
         <Router>
           <div className="App">
@@ -34,7 +33,7 @@ function App() {
           </div>
         </Router>
       </DndProvider>
-    </Provider>
+    
   );
 }
 
