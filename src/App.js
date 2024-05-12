@@ -1,36 +1,45 @@
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import './App.css';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import Sidebar from './components/Sidebar';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
+import { Provider } from 'react-redux';
+import store from '../src/redux/store';
+import Sidebar from '../src/components/Sidebar';
 import ToolbarComponent from './components/ToolbarComponent';
-import Home from './pages/Home';
-import RuleChains from './pages/RuleChains';
+import Home from '../src/pages/Home';
+import RuleChains from '../src/pages/RuleChains';
 import axios from 'axios';
 
 function App() {
   useEffect(() => {
     axios.get('https://localhost:7113')
-    .then((response) => {
-      console.log(response.data)
-    })
-  }, [])
+      .then((response) => {
+        console.log(response.data);
+      });
+  }, []);
+
   return (
-    <Router>
-      <div className="App">
-      <ToolbarComponent
-        onSave={() => alert("Save functionality here")}
-        onEdit={() => alert("Edit functionality here")}
-        onDelete={() => alert("Delete functionality here")}
-      />
-        <Sidebar />
-          <div style={{ marginLeft: '200px', padding: '20px' }}>
-            <Routes>
-              <Route exact path="/" component={Home} />
-              <Route path="/rule-chains" component={RuleChains} />
-            </Routes>
+    <Provider store={store}>
+      <DndProvider backend={HTML5Backend}>
+        <Router>
+          <div className="App">
+            <ToolbarComponent
+              onSave={() => alert("Save functionality here")}
+              onEdit={() => alert("Edit functionality here")}
+              onDelete={() => alert("Delete functionality here")}
+            />
+            <Sidebar />
+            <div style={{ marginLeft: '200px', padding: '20px' }}>
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/rule-chains" element={<RuleChains />} />
+              </Routes>
+            </div>
           </div>
-      </div>
-    </Router>
+        </Router>
+      </DndProvider>
+    </Provider>
   );
 }
 
