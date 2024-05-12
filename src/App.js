@@ -1,7 +1,10 @@
 import { useEffect } from 'react';
 import './App.css';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import Sidebar from './components/Sidebar';
+import Home from './pages/Home';
+import RuleChains from './pages/RuleChains';
 import axios from 'axios';
-import FileUpload from './components/FileUpload';
 
 function App() {
   useEffect(() => {
@@ -11,10 +14,17 @@ function App() {
     })
   }, [])
   return (
-    <div className="App">
-      <h1>Upload a config file</h1>
-      <FileUpload />
-    </div>
+    <Router>
+      <div className="App">
+        <Sidebar />
+          <div style={{ marginLeft: '200px', padding: '20px' }}>
+            <Routes>
+              <Route exact path="/" component={Home} />
+              <Route path="/rule-chains" component={RuleChains} />
+            </Routes>
+          </div>
+      </div>
+    </Router>
   );
 }
 
