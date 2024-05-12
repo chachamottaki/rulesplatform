@@ -1,46 +1,36 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+
+const fetchRuleChains = () => {
+  return dispatch => {
+    dispatch({ type: 'FETCH_RULE_CHAINS_REQUEST' });
+    setTimeout(() => {  // Simulate API call
+      dispatch({
+        type: 'FETCH_RULE_CHAINS_SUCCESS',
+        payload: [
+          { id: 1, name: 'Temperature Control', description: 'Controls temperature.' },
+          { id: 2, name: 'Lighting Management', description: 'Manages lighting.' }
+        ]
+      });
+    }, 1000);
+  };
+};
 
 const RuleChains = () => {
-  const [ruleChains, setRuleChains] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const { ruleChains, isLoading } = useSelector(state => state);
+  const dispatch = useDispatch();
 
-  // Mock function to simulate fetching data from an API
   useEffect(() => {
-    const fetchRuleChains = async () => {
-      setIsLoading(true);
-      try {
-        // Simulated API call
-        const response = await new Promise(resolve => {
-          setTimeout(() => {
-            resolve([
-              { id: 1, name: 'Temperature Control', description: 'Controls the temperature of devices.' },
-              { id: 2, name: 'Lighting Management', description: 'Manages the lighting based on ambient conditions.' },
-            ]);
-          }, 1000);
-        });
-        
-        setRuleChains(response);
-      } catch (error) {
-        console.error('Failed to fetch rule chains', error);
-      }
-      setIsLoading(false);
-    };
-
-    fetchRuleChains();
-  }, []);
+    dispatch(fetchRuleChains());
+  }, [dispatch]);
 
   return (
     <div>
       <h2>Rule Chains</h2>
-      {isLoading ? (
-        <p>Loading rule chains...</p>
-      ) : (
+      {isLoading ? <p>Loading...</p> : (
         <ul>
           {ruleChains.map(ruleChain => (
-            <li key={ruleChain.id}>
-              <h3>{ruleChain.name}</h3>
-              <p>{ruleChain.description}</p>
-            </li>
+            <li key={ruleChain.id}>{ruleChain.name}: {ruleChain.description}</li>
           ))}
         </ul>
       )}
