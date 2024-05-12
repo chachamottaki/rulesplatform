@@ -1,6 +1,6 @@
 // NodeSidebar.js
 import React from 'react';
-import Node from './Node';
+import DraggableNode from './DraggableNode';
 
 const nodes = [
   { id: 1, name: 'Input Node', type: 'input' },
@@ -12,7 +12,7 @@ const NodeSidebar = () => {
   return (
     <div className="node-sidebar">
       {nodes.map(node => (
-        <Node key={node.id} id={node.id} name={node.name} type={node.type} />
+        <DraggableNode key={node.id} id={node.id} name={node.name} type={node.type} />
       ))}
     </div>
   );
