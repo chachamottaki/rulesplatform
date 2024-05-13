@@ -5,7 +5,7 @@ import DraggableNode from './DraggableNode';
 const nodes = [
   { id: 1, name: 'Input Node', type: 'input' },
   { id: 2, name: 'Output Node', type: 'output' },
-  // add more nodes here 
+  
 ];
 
 const NodeSidebar = () => {

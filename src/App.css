@@ -112,16 +112,18 @@ li {
 }
 
 .node {
-  width: 100px;
-  height: 50px;
-  background-color: #ddd;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border: 1px solid #333;
+  border-radius: 8px;
+  box-shadow: 0px 2px 5px rgba(0,0,0,0.2);
+  background: linear-gradient(to right, #62a9ff, #62a9ff);
+  color: white;
+  padding: 10px 20px; 
+  font-family: Arial, sans-serif; 
+  display: flex; 
+  align-items: center; 
+  justify-content: center; 
+  cursor: move; 
 }
 
-/* src/App.css or a dedicated CSS module for RuleChains */
 
 .ruleChainsContainer {
   display: flex;
