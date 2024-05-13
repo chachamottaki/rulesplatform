@@ -1,16 +1,19 @@
 import React, { useState } from 'react';
 import { useDrop } from 'react-dnd';
-import { NodeTypes } from './NodeTypes';
 import DraggableCanvasNode from './DraggableCanvasNode';
+import ConnectorComponent from './ConnectorComponent';
+import { NodeTypes } from './NodeTypes';
 
 const Canvas = () => {
   const [nodes, setNodes] = useState([]);
+  const [connections, setConnections] = useState([]);
+  const [connecting, setConnecting] = useState(false);
+  const [startNodeId, setStartNodeId] = useState(null);
 
   const [, drop] = useDrop({
-    accept: Object.values(NodeTypes), // Accept all node types
+    accept: Object.values(NodeTypes),
     drop: (item, monitor) => {
       const delta = monitor.getDifferenceFromInitialOffset();
-      // Check if the delta exists, otherwise no movement happened
       if (delta) {
         const left = Math.round((item.left || 0) + delta.x);
         const top = Math.round((item.top || 0) + delta.y);
@@ -18,23 +21,37 @@ const Canvas = () => {
         setNodes(oldNodes => {
           const existingIndex = oldNodes.findIndex(node => node.id === item.id);
           if (existingIndex !== -1) {
-            // Node exists, update its position
             const updatedNodes = [...oldNodes];
             updatedNodes[existingIndex] = { ...item, left, top };
             return updatedNodes;
           } else {
-            // New node, add it to the state
-            return [...oldNodes, { ...item, left, top }];
+            return [...oldNodes, { ...item, id: item.id || Math.random(), left, top }];
           }
         });
       }
     },
   });
 
+  const startConnection = (nodeId) => {
+    setConnecting(true);
+    setStartNodeId(nodeId);
+  };
+
+  const endConnection = (nodeId) => {
+    if (connecting && startNodeId && startNodeId !== nodeId) {
+      setConnections([...connections, { startId: startNodeId, endId: nodeId }]);
+      setConnecting(false);
+      setStartNodeId(null);
+    }
+  };
+
   return (
     <div ref={drop} style={{ width: '100%', height: '500px', position: 'relative', border: '1px solid black' }}>
-      {nodes.map((node, index) => (
-        <DraggableCanvasNode key={index} {...node} />
+      {connections.map((conn, index) => (
+        <ConnectorComponent key={index} start={nodes.find(n => n.id === conn.startId)} end={nodes.find(n => n.id === conn.endId)} />
+      ))}
+      {nodes.map((node) => (
+        <DraggableCanvasNode key={node.id} {...node} onStartConnection={startConnection} onEndConnection={endConnection} />
       ))}
     </div>
   );
