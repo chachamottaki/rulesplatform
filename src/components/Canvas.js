@@ -10,10 +10,24 @@ const Canvas = () => {
     accept: Object.values(NodeTypes), // Accept all node types
     drop: (item, monitor) => {
       const delta = monitor.getDifferenceFromInitialOffset();
-      const left = Math.round((item.left || 0) + delta.x);
-      const top = Math.round((item.top || 0) + delta.y);
+      // Check if the delta exists, otherwise no movement happened
+      if (delta) {
+        const left = Math.round((item.left || 0) + delta.x);
+        const top = Math.round((item.top || 0) + delta.y);
 
-      setNodes(oldNodes => [...oldNodes, { ...item, left, top }]);
+        setNodes(oldNodes => {
+          const existingIndex = oldNodes.findIndex(node => node.id === item.id);
+          if (existingIndex !== -1) {
+            // Node exists, update its position
+            const updatedNodes = [...oldNodes];
+            updatedNodes[existingIndex] = { ...item, left, top };
+            return updatedNodes;
+          } else {
+            // New node, add it to the state
+            return [...oldNodes, { ...item, left, top }];
+          }
+        });
+      }
     },
   });
 
