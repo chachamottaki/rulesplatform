@@ -2,7 +2,7 @@ import React from 'react';
 import { useDrag } from 'react-dnd';
 import { NodeTypes } from './NodeTypes';
 
-const DraggableCanvasNode = ({ id, name, type, left, top, onStartConnection, onEndConnection }) => {
+const DraggableCanvasNode = ({ id, name, type, left, top, onStartConnection, onEndConnection, onDoubleClickNode }) => {
   const validType = NodeTypes[type?.toUpperCase()] || NodeTypes.DEFAULT;
   const [{ isDragging }, drag] = useDrag({
     type: validType,
@@ -24,7 +24,9 @@ const DraggableCanvasNode = ({ id, name, type, left, top, onStartConnection, onE
       backgroundColor: '#fff',
       border: '1px solid #ccc',
       borderRadius: '5px',
-    }}>
+    }}
+    onDoubleClick={() => onDoubleClickNode(id)}
+    >
       <div
         onMouseDown={() => onStartConnection(id)}
         style={{

@@ -7,6 +7,7 @@ const NodeSidebar = () => {
   const nodes = [
     { name: 'Input Node', type: 'input' },
     { name: 'Output Node', type: 'output' },
+    { name: 'Upload Config', type: 'upload' },
     // add more nodes
   ];
 
