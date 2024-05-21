@@ -6,7 +6,7 @@ import { HTML5Backend } from 'react-dnd-html5-backend';
 //import { Provider } from 'react-redux';
 import Sidebar from './components/Sidebar';
 //import ToolbarComponent from './components/ToolbarComponent';
-import Home from './pages/Home';
+import DeviceConfig from './pages/DeviceConfig';
 import RuleChains from './pages/RuleChains';
 import axios from 'axios';
 
@@ -26,7 +26,7 @@ function App() {
             <Sidebar />
             <div style={{ marginLeft: '200px', padding: '20px' }}>
               <Routes>
-                <Route path="/" element={<Home />} />
+                <Route path="/" element={<DeviceConfig />} />
                 <Route path="/rule-chains" element={<RuleChains />} />
               </Routes>
             </div>

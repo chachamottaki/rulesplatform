@@ -7,7 +7,7 @@ const Sidebar = () => {
       <h3>Navigation</h3>
       <ul>
         <li>
-          <Link to="/">Home</Link>
+          <Link to="/">Device Config</Link>
         </li>
         <li>
           <Link to="/rule-chains">Rule Chains</Link>
