@@ -98,12 +98,17 @@ input {
 .sidebar ul li a .icon {
   margin-right: 10px;
   font-size: 18px;
+  color: #0069B4;
 }
 
 /* Active link styling */
 .sidebar ul li a.active {
   background-color: #e0e0e0;
   font-weight: bold;
+}
+
+.sidebar ul li a.active .icon {
+  color: #007bff; /* Ensure active icon color remains blue */
 }
 
 ul {

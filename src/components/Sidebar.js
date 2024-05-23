@@ -9,7 +9,7 @@ const Sidebar = () => {
       <ul>
         <li>
           <Link to="/"> 
-          <i className="fas fa-upload icon"></i>Device Config
+            <i className="fas fa-upload icon"></i>Device Config
           </Link>
         </li>
         <li>
