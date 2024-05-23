@@ -3,7 +3,7 @@ import { useDrop } from 'react-dnd';
 import DraggableCanvasNode from './DraggableCanvasNode';
 import ConnectorComponent from './ConnectorComponent';
 import { NodeTypes } from './NodeTypes';
-import UploadSidebar from './UploadSidebar';
+import UploadSidebar from './ConfigUpload';
 
 
 const Canvas = () => {
