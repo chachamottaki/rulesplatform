@@ -4,9 +4,13 @@ import NodeSidebar from '../components/NodeSidebar';
 
 const RuleChains = () => {
   return (
-    <div style={{ display: 'flex', width: '100vw', height: '100vh' }}>
-      <NodeSidebar />
-      <Canvas />
+    <div className="rulechains-container">
+      <div className="nodes-sidebar-container">
+        <NodeSidebar />
+      </div>
+      <div className="canvas-container">
+        <Canvas />
+      </div>
     </div>
   );
 };

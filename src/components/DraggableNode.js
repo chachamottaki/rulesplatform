@@ -19,5 +19,4 @@ const DraggableNode = ({ id, name, type }) => {
   );
 };
 
-
 export default DraggableNode;

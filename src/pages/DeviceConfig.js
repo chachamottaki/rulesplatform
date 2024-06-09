@@ -1,4 +1,3 @@
-//temporary page
 import React from 'react';
 import ConfigUpload from '../components/ConfigUpload';
 
