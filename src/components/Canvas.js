@@ -55,7 +55,7 @@ const Canvas = () => {
   };
 
   return (
-    <div ref={drop} style={{ width: '100%', height: '500px', position: 'relative', border: '1px solid black' }}>
+    <div ref={drop} className="canvas-container">
       {connections.map((conn, index) => (
         <ConnectorComponent key={index} start={nodes.find(n => n.id === conn.startId)} end={nodes.find(n => n.id === conn.endId)} />
       ))}

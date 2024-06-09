@@ -202,7 +202,9 @@ li.active {
   width: 100%;
   height: 500px;
   position: relative;
-  border: 1px solid black;
+  border: 1px solid #ccc;
+  border-radius: 10px;  /* Add rounded corners */
+  background-color: #f0f0f0;  /* Set the background color to gray */
   overflow: visible; /* Allow overflow to be visible */
 }
 
@@ -328,7 +330,6 @@ li.active {
 .nodes-sidebar-container {
   width: 200px;
   margin-right: 20px;
-  margin-left: 20px;
 }
 
 .canvas-container {

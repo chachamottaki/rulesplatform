@@ -8,9 +8,7 @@ const RuleChains = () => {
       <div className="nodes-sidebar-container">
         <NodeSidebar />
       </div>
-      <div className="canvas-container">
-        <Canvas />
-      </div>
+      <Canvas />
     </div>
   );
 };
