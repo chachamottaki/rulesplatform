@@ -335,9 +335,12 @@ li.active {
 
 .canvas-container {
   flex: 1;
+  height: 80vh; /* Adjust the height as needed */
   border: 1px solid #ccc;
   padding: 20px;
   box-sizing: border-box;
+  border-radius: 10px;
+  background-color: #f0f0f0;
 }
 
 /* NodeSidebar styling */
