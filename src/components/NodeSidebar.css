@@ -21,4 +21,25 @@
   .node:hover {
     background-color: #2a6bbf;
   }
-  
+
+/* Connector point styling */
+.connector-point {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: blue;
+    cursor: pointer;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.connector-point.right {
+    right: -5px; /* Adjust to position outside the node */
+    background-color: red; /* Color for right connector */
+}
+
+.connector-point.left {
+    left: -5px; /* Adjust to position outside the node */
+    background-color: blue; /* Color for left connector */
+}
