@@ -28,18 +28,18 @@
     width: 10px;
     height: 10px;
     border-radius: 50%;
-    background-color: blue;
     cursor: pointer;
     top: 50%;
     transform: translateY(-50%);
+    border: 2px solid gray; /* Darker border */
 }
 
 .connector-point.right {
     right: -5px; /* Adjust to position outside the node */
-    background-color: red; /* Color for right connector */
+    background-color: #fc6c64; /* Color for right connector */
 }
 
 .connector-point.left {
     left: -5px; /* Adjust to position outside the node */
-    background-color: blue; /* Color for left connector */
+    background-color: #98f0c0; /* Color for left connector */
 }
