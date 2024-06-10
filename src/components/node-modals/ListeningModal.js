@@ -22,7 +22,7 @@ const ListeningModalContent = ({ node, saveApiEndpoint }) => {
   return (
     <div>
       {/*<p>Node ID: {node?.id}</p>*/}
-      <p>Node Name: {node?.name}</p>
+      {/*<p>Node Name: {node?.name}</p>*/}
       <Form onSubmit={handleSubmit}>
         <Form.Group controlId="formApiEndpoint">
           <Form.Label>API Endpoint</Form.Label>
