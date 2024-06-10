@@ -350,4 +350,7 @@ li.active {
   transition: background-color 0.2s;
 }
 
+.modal-save-btn {
+  margin-top: 20px; /* Adjust the value as needed */
+}
 

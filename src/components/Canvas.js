@@ -35,7 +35,7 @@ const Canvas = () => {
             updatedNodes[existingIndex] = { ...item, left, top };
             return updatedNodes;
           } else {
-            return [...oldNodes, { ...item, id: item.id || Math.random(), left, top }];
+            return [...oldNodes, { ...item, id: item.id || Math.random(), left, top, apiEndpoint: '' }];
           }
         });
       }
@@ -86,6 +86,12 @@ const Canvas = () => {
     setSelectedNode(null);
   };
 
+  const saveApiEndpoint = (nodeId, apiEndpoint) => {
+    setNodes(oldNodes => oldNodes.map(node => 
+      node.id === nodeId ? { ...node, apiEndpoint } : node
+    ));
+  };
+
   return (
     <div ref={drop} className="canvas-container">
       {connections.map((conn, index) => (
@@ -100,7 +106,7 @@ const Canvas = () => {
           <Modal.Title>Listening Node Configurations</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <ListeningModalContent node={selectedNode} />
+          <ListeningModalContent node={selectedNode} saveApiEndpoint={saveApiEndpoint} />
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={closeModal}>Close</Button>
