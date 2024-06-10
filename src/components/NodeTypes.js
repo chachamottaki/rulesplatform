@@ -6,6 +6,6 @@ export const NodeTypes = {
   LISTENING:'listening',
   CONDITION:'condition',
   CREATEMAIL:'emailcreation',
-  SENDMAIL:'emailsending',
+  SENDEMAIL:'emailsending',
   DEFAULT: 'default'
 };

@@ -3,16 +3,22 @@ import { useDrop } from 'react-dnd';
 import DraggableCanvasNode from './DraggableCanvasNode';
 import ConnectorComponent from './ConnectorComponent';
 import { NodeTypes } from './NodeTypes';
-import UploadSidebar from './ConfigUpload';
-
+import { Modal, Button } from 'react-bootstrap'; // IMPORT REACT-BOOTSTRAP COMPONENTS
+import ListeningModalContent from './node-modals/ListeningModal';
+import ConditionModalContent from './node-modals/ConditionModal';
+import CreateEmailModalContent from './node-modals/CreateEmailModal';
+import SendEmailModalContent from './node-modals/SendEmailModal';
 
 const Canvas = () => {
   const [nodes, setNodes] = useState([]);
   const [connections, setConnections] = useState([]);
   const [connecting, setConnecting] = useState(false);
   const [startNodeId, setStartNodeId] = useState(null);
-  const [showUploadSidebar, setShowUploadSidebar] = useState(false);
-  const [selectedNode, setSelectedNode] = useState(null); //to have info abt node, for later when render sidebar content for example
+  const [showListeningModal, setShowListeningModal] = useState(false);
+  const [showConditionModal, setShowConditionModal] = useState(false); 
+  const [showCreateEmailModal, setShowCreateEmailModal] = useState(false); 
+  const [showSendEmailModal, setShowSendEmailModal] = useState(false); 
+  const [selectedNode, setSelectedNode] = useState(null);
 
   const [, drop] = useDrop({
     accept: Object.values(NodeTypes),
@@ -49,9 +55,35 @@ const Canvas = () => {
     }
   };
 
-  const toggleUploadSidebar = (nodeId) => {
-    setSelectedNode(nodes.find(n => n.id === nodeId)); // Optional, if you need info about the node
-    setShowUploadSidebar(prev => !prev);
+  const toggleModal = (nodeId) => {
+    const node = nodes.find(n => n.id === nodeId);
+    if (node) {
+      setSelectedNode(node);
+      switch (node.type) {
+        case NodeTypes.LISTENING:
+          setShowListeningModal(true);
+          break;
+        case NodeTypes.CONDITION:
+          setShowConditionModal(true);
+          break;
+        case NodeTypes.CREATEMAIL:
+          setShowCreateEmailModal(true);
+          break;
+        case NodeTypes.SENDEMAIL:
+          setShowSendEmailModal(true);
+          break;
+        default:
+          break;
+      }
+    }
+  };
+
+  const closeModal = () => {
+    setShowListeningModal(false);
+    setShowConditionModal(false);
+    setShowCreateEmailModal(false);
+    setShowSendEmailModal(false);
+    setSelectedNode(null);
   };
 
   return (
@@ -60,9 +92,56 @@ const Canvas = () => {
         <ConnectorComponent key={index} start={nodes.find(n => n.id === conn.startId)} end={nodes.find(n => n.id === conn.endId)} />
       ))}
       {nodes.map((node) => (
-        <DraggableCanvasNode key={node.id} {...node} onStartConnection={startConnection} onEndConnection={endConnection} onDoubleClickNode={toggleUploadSidebar} />
+        <DraggableCanvasNode key={node.id} {...node} onStartConnection={startConnection} onEndConnection={endConnection} onDoubleClickNode={toggleModal} />
       ))}
-    {showUploadSidebar && <UploadSidebar onClose={() => setShowUploadSidebar(false)} />}
+      
+      <Modal show={showListeningModal} onHide={closeModal} backdrop="static" centered>
+        <Modal.Header closeButton>
+          <Modal.Title>Listening Node Configurations</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <ListeningModalContent node={selectedNode} />
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={closeModal}>Close</Button>
+        </Modal.Footer>
+      </Modal>
+
+      <Modal show={showConditionModal} onHide={closeModal} backdrop="static" centered>
+        <Modal.Header closeButton>
+          <Modal.Title>Condition Node Configurations</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <ConditionModalContent node={selectedNode} />
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={closeModal}>Close</Button>
+        </Modal.Footer>
+      </Modal>
+
+      <Modal show={showCreateEmailModal} onHide={closeModal} backdrop="static" centered>
+        <Modal.Header closeButton>
+          <Modal.Title>Create Email Node Configurations</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <CreateEmailModalContent node={selectedNode} />
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={closeModal}>Close</Button>
+        </Modal.Footer>
+      </Modal>
+
+      <Modal show={showSendEmailModal} onHide={closeModal} backdrop="static" centered>
+        <Modal.Header closeButton>
+          <Modal.Title>Send Email Node Configurations</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <SendEmailModalContent node={selectedNode} />
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={closeModal}>Close</Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 };
