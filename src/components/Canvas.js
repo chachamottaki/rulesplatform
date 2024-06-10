@@ -35,7 +35,7 @@ const Canvas = () => {
             updatedNodes[existingIndex] = { ...item, left, top };
             return updatedNodes;
           } else {
-            return [...oldNodes, { ...item, id: item.id || Math.random(), left, top, apiEndpoint: '' }];
+            return [...oldNodes, { ...item, id: item.id || Math.random(), left, top, apiEndpoint: '', script: '' }];
           }
         });
       }
@@ -92,6 +92,12 @@ const Canvas = () => {
     ));
   };
 
+  const saveScript = (nodeId, script) => {
+    setNodes(oldNodes => oldNodes.map(node => 
+      node.id === nodeId ? { ...node, script } : node
+    ));
+  };
+
   return (
     <div ref={drop} className="canvas-container">
       {connections.map((conn, index) => (
@@ -118,7 +124,7 @@ const Canvas = () => {
           <Modal.Title>Condition Node Configurations</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <ConditionModalContent node={selectedNode} />
+          <ConditionModalContent node={selectedNode} saveScript={saveScript} />
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={closeModal}>Close</Button>
