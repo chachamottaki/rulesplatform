@@ -172,18 +172,7 @@ li.active {
   overflow: hidden;
 }
 
-.node {
-  border-radius: 8px;
-  box-shadow: 0px 2px 5px rgba(0,0,0,0.2);
-  background: linear-gradient(to right, #62a9ff, #62a9ff);
-  color: white;
-  padding: 10px 20px; 
-  font-family: Arial, sans-serif; 
-  display: flex; 
-  align-items: center; 
-  justify-content: center; 
-  cursor: move; 
-}
+
 
 .ruleChainsContainer {
   display: flex;
@@ -353,14 +342,12 @@ li.active {
 .node {
   padding: 10px;
   margin-bottom: 10px;
-  background-color: #3f8efc;
   color: white;
   text-align: center;
   border-radius: 10px; /* Ensure nodes have rounded corners */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: #0069b4 ;
   transition: background-color 0.2s;
 }
 
-.node:hover {
-  background-color: #2a6bbf;
-}
+
