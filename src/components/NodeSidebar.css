@@ -10,7 +10,7 @@
   .node {
     padding: 10px;
     margin-bottom: 10px;
-    background-color: #3f8efc;
+    background-color: #0069b4;
     color: white;
     text-align: center;
     border-radius: 10px; /* Ensure nodes have rounded corners */
@@ -19,7 +19,7 @@
   }
   
   .node:hover {
-    background-color: #2a6bbf;
+    background-color: #3f8efc;
   }
 
 /* Connector point styling */

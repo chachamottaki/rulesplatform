@@ -1,17 +1,31 @@
 import React, { useState, useEffect } from 'react';
-import { Form, Button } from 'react-bootstrap';
+import { Form, Button, Dropdown, DropdownButton } from 'react-bootstrap';
 
 const ListeningModalContent = ({ node, saveApiEndpoint }) => {
-  const [apiEndpoint, setApiEndpoint] = useState('');
+  const apiEndpoints = [
+    'https://api.example.com/endpoint1',
+    'https://api.example.com/endpoint2',
+    'https://api.example.com/endpoint3',
+    'https://api.example.com/endpoint4'
+  ];
+
+  const [apiEndpoint, setApiEndpoint] = useState(apiEndpoints[0]); // Initialize with the first endpoint
+  const [selectedEndpoint, setSelectedEndpoint] = useState(apiEndpoints[0]);
 
   useEffect(() => {
     if (node) {
-      setApiEndpoint(node.apiEndpoint || '');
+      setApiEndpoint(node.apiEndpoint || apiEndpoints[0]);
+      setSelectedEndpoint(node.apiEndpoint || apiEndpoints[0]);
     }
-  }, [node]);
+  }, [node, apiEndpoints]);
 
   const handleInputChange = (e) => {
     setApiEndpoint(e.target.value);
+  };
+
+  const handleEndpointSelect = (endpoint) => {
+    setApiEndpoint(endpoint);
+    setSelectedEndpoint(endpoint);
   };
 
   const handleSubmit = (e) => {
@@ -21,8 +35,6 @@ const ListeningModalContent = ({ node, saveApiEndpoint }) => {
 
   return (
     <div>
-      {/*<p>Node ID: {node?.id}</p>*/}
-      {/*<p>Node Name: {node?.name}</p>*/}
       <Form onSubmit={handleSubmit}>
         <Form.Group controlId="formApiEndpoint">
           <Form.Label>API Endpoint</Form.Label>
@@ -32,6 +44,17 @@ const ListeningModalContent = ({ node, saveApiEndpoint }) => {
             value={apiEndpoint}
             onChange={handleInputChange}
           />
+          <DropdownButton
+            id="dropdown-basic-button"
+            title="Select another API Endpoint"
+            className="mt-2"
+          >
+            {apiEndpoints.map((endpoint, index) => (
+              <Dropdown.Item key={index} onClick={() => handleEndpointSelect(endpoint)}>
+                {endpoint}
+              </Dropdown.Item>
+            ))}
+          </DropdownButton>
         </Form.Group>
         <Button variant="primary" type="submit" className="modal-save-btn">
           Save
