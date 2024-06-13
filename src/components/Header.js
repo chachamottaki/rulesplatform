@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import '@fortawesome/fontawesome-free/css/all.min.css';  // Ensure this import is in your main file
+import '@fortawesome/fontawesome-free/css/all.min.css';
 
 const Header = () => {
   return (
