@@ -1,5 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { useDrop } from 'react-dnd';
+import axios from 'axios';
 import DraggableCanvasNode from './DraggableCanvasNode';
 import Arrow from './Arrow';
 import { NodeTypes } from './NodeTypes';
@@ -155,6 +156,37 @@ const Canvas = () => {
     ));
   };
 
+  const handleSave = async () => {
+    const payload = {
+      name: "Example Rule Chain",
+      description: "This is an example rule chain with a listening node, email creation node, and email sending node.",
+      nodes: nodes.map(node => ({
+        ruleNodeId: 0,
+        nodeType: node.type,
+        configurationJson: JSON.stringify({
+          apiEndpoint: node.apiEndpoint || "",
+          script: node.script || "",
+          recipient: node.recipient || "",
+          sender: node.sender || "",
+          subject: node.subject || "",
+          content: node.content || ""
+        }),
+        nodeConnections: connections.filter(conn => conn.start.nodeId === node.id).map(conn => ({
+          sourceNodeIndex: node.id,
+          targetNodeIndex: conn.end.nodeId
+        })),
+        ruleChainID: 0
+      }))
+    };
+
+    try {
+      const response = await axios.post('https://localhost:7113/api/RuleChains', payload);
+      console.log('Saved successfully:', response.data);
+    } catch (error) {
+      console.error('Error saving rule chain:', error);
+    }
+  };
+
   return (
     <div ref={canvasRef} className="canvas-container" onMouseMove={handleMouseMove}>
       <div ref={drop} className="canvas-area">
@@ -175,6 +207,9 @@ const Canvas = () => {
             width={NODE_WIDTH} // Ensure node has the fixed width
           />
         ))}
+        <Button onClick={handleSave} style={{ position: 'absolute', bottom: '10px', right: '10px' }}>
+          Save Rule
+        </Button>
       </div>
       
       <Modal show={showListeningModal} onHide={closeModal} backdrop="static" centered>
