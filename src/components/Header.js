@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import Logo from '../res/nmbs-sncb-logo-white.png';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 
 const Header = () => {
@@ -7,7 +8,7 @@ const Header = () => {
     <div className="header">
       <div className="header-left">
         <span className="logo">
-          <i className="fas fa-home"></i> Technical Platform Station
+          <img src={Logo} alt="sncb-nmbs logo" style={{ width: '70px', height: '70px' }} />
         </span>
       </div>
       <div className="header-right">

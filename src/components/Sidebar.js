@@ -5,7 +5,7 @@ import '@fortawesome/fontawesome-free/css/all.min.css';
 const Sidebar = () => {
   return (
     <div className="sidebar">
-      <h3>Navigation</h3>
+      <h3>Technical Platform Station</h3>
       <ul>
         <li>
           <Link to="/"> 

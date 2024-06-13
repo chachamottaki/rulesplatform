@@ -223,7 +223,7 @@ li.active {
   top: 0;
   left: 0;
   height: 60px;
-  background-color: #0056b3;
+  background-color: #24346c;
   color: white;
   display: flex;
   justify-content: space-between;
@@ -255,7 +255,7 @@ li.active {
 }
 
 .dropbtn {
-  background-color: #0056b3;
+  background-color: #24346c;
   color: white;
   padding: 10px;
   font-size: 14px;
@@ -292,7 +292,7 @@ li.active {
 }
 
 .language-button {
-  background-color: #0056b3;
+  background-color: #24346c;
   color: white;
   border: none;
   font-size: 14px;
