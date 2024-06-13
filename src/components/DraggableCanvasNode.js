@@ -3,7 +3,7 @@ import { useDrag } from 'react-dnd';
 import { NodeTypes } from './NodeTypes';
 import './NodeSidebar.css'; // Ensure this is imported for styles
 
-const DraggableCanvasNode = ({ id, name, type, left, top, onStartConnection, onEndConnection, onDoubleClickNode }) => {
+const DraggableCanvasNode = ({ id, name, type, left, top, onStartConnection, onEndConnection, onDoubleClickNode }) => { // UPDATED
   const validType = NodeTypes[type?.toUpperCase()] || NodeTypes.DEFAULT;
   const [{ isDragging }, drag] = useDrag({
     type: validType,
@@ -12,6 +12,18 @@ const DraggableCanvasNode = ({ id, name, type, left, top, onStartConnection, onE
       isDragging: !!monitor.isDragging(),
     }),
   });
+
+  const handleMouseClick = (event, connectorType) => { // UPDATED
+    event.stopPropagation();
+    const rect = event.target.getBoundingClientRect();
+    const centerX = rect.left + rect.width / 2 + window.scrollX;
+    const centerY = rect.top + rect.height / 2 + window.scrollY;
+    if (connectorType === 'right') {
+      onStartConnection(id, connectorType, centerX, centerY); // Start connection on click
+    } else {
+      onEndConnection(id, connectorType, centerX, centerY); // End connection on click
+    }
+  };
 
   return (
     <div
@@ -24,16 +36,13 @@ const DraggableCanvasNode = ({ id, name, type, left, top, onStartConnection, onE
         opacity: isDragging ? 0.5 : 1,
         cursor: 'move',
       }}
-      onDoubleClick={() => onDoubleClickNode(id)}
+      onDoubleClick={() => onDoubleClickNode(id)} // RETAINED
     >
-      <div
-        className="connector-point left"
-        onMouseDown={() => onStartConnection(id)}
-      />
+      <div className="connector-point left" onClick={(event) => handleMouseClick(event, 'left')} /> {/* UPDATED */}
       {name}
       <div
         className="connector-point right"
-        onMouseDown={() => onEndConnection(id)}
+        onClick={(event) => handleMouseClick(event, 'right')} // UPDATED
       />
     </div>
   );

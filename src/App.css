@@ -200,7 +200,6 @@ li.active {
 .canvas-area {
   flex: 1;
   height: 100vh;
-  border-left: 1px solid #ccc;
 }
 
 /* Upload sidebar styling */

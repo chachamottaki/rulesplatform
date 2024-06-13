@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { useDrop } from 'react-dnd';
 import DraggableCanvasNode from './DraggableCanvasNode';
-import ConnectorComponent from './ConnectorComponent';
+import Arrow from './Arrow'; // UPDATED
 import { NodeTypes } from './NodeTypes';
-import { Modal, Button } from 'react-bootstrap'; // IMPORT REACT-BOOTSTRAP COMPONENTS
+import { Modal, Button } from 'react-bootstrap';
 import ListeningModalContent from './node-modals/ListeningModal';
 import ConditionModalContent from './node-modals/ConditionModal';
 import CreateEmailModalContent from './node-modals/CreateEmailModal';
@@ -12,15 +12,18 @@ import SendEmailModalContent from './node-modals/SendEmailModal';
 const Canvas = () => {
   const [nodes, setNodes] = useState([]);
   const [connections, setConnections] = useState([]);
-  const [connecting, setConnecting] = useState(false);
-  const [startNodeId, setStartNodeId] = useState(null);
+  const [connecting, setConnecting] = useState(false); // NEW STATE
+  const [startConnector, setStartConnector] = useState(null); // NEW STATE
+  const [currentMousePosition, setCurrentMousePosition] = useState({ x: 0, y: 0 }); // NEW STATE
   const [showListeningModal, setShowListeningModal] = useState(false);
-  const [showConditionModal, setShowConditionModal] = useState(false); 
-  const [showCreateEmailModal, setShowCreateEmailModal] = useState(false); 
-  const [showSendEmailModal, setShowSendEmailModal] = useState(false); 
+  const [showConditionModal, setShowConditionModal] = useState(false);
+  const [showCreateEmailModal, setShowCreateEmailModal] = useState(false);
+  const [showSendEmailModal, setShowSendEmailModal] = useState(false);
   const [selectedNode, setSelectedNode] = useState(null);
 
-  const [, drop] = useDrop({
+  const canvasRef = useRef(null); // ADD REFERENCE TO CANVAS
+
+  const [{ canDrop, isOver }, drop] = useDrop({
     accept: Object.values(NodeTypes),
     drop: (item, monitor) => {
       const delta = monitor.getDifferenceFromInitialOffset();
@@ -40,18 +43,31 @@ const Canvas = () => {
         });
       }
     },
+    collect: monitor => ({
+      isOver: monitor.isOver(),
+      canDrop: monitor.canDrop(),
+    }),
   });
 
-  const startConnection = (nodeId) => {
+  const startConnection = (nodeId, connectorType, x, y) => { // UPDATED
+    const canvasRect = canvasRef.current.getBoundingClientRect();
     setConnecting(true);
-    setStartNodeId(nodeId);
+    setStartConnector({ nodeId, connectorType, x: x - canvasRect.left, y: y - canvasRect.top });
   };
 
-  const endConnection = (nodeId) => {
-    if (connecting && startNodeId && startNodeId !== nodeId) {
-      setConnections([...connections, { startId: startNodeId, endId: nodeId }]);
+  const endConnection = (nodeId, connectorType, x, y) => { // UPDATED
+    if (connecting && startConnector.nodeId !== nodeId) {
+      const canvasRect = canvasRef.current.getBoundingClientRect();
+      setConnections([...connections, { start: startConnector, end: { nodeId, connectorType, x: x - canvasRect.left, y: y - canvasRect.top } }]);
       setConnecting(false);
-      setStartNodeId(null);
+      setStartConnector(null);
+    }
+  };
+
+  const handleMouseMove = (event) => {
+    if (connecting) {
+      const canvasRect = canvasRef.current.getBoundingClientRect();
+      setCurrentMousePosition({ x: event.clientX - canvasRect.left, y: event.clientY - canvasRect.top });
     }
   };
 
@@ -105,13 +121,24 @@ const Canvas = () => {
   };
 
   return (
-    <div ref={drop} className="canvas-container">
-      {connections.map((conn, index) => (
-        <ConnectorComponent key={index} start={nodes.find(n => n.id === conn.startId)} end={nodes.find(n => n.id === conn.endId)} />
-      ))}
-      {nodes.map((node) => (
-        <DraggableCanvasNode key={node.id} {...node} onStartConnection={startConnection} onEndConnection={endConnection} onDoubleClickNode={toggleModal} />
-      ))}
+    <div ref={canvasRef} className="canvas-container" onMouseMove={handleMouseMove}>
+      <div ref={drop} className="canvas-area">
+        {connections.map((conn, index) => (
+          <Arrow key={index} start={{ x: conn.start.x, y: conn.start.y }} end={{ x: conn.end.x, y: conn.end.y }} /> // UPDATED
+        ))}
+        {connecting && startConnector && (
+          <Arrow start={{ x: startConnector.x, y: startConnector.y }} end={currentMousePosition} /> // UPDATED
+        )}
+        {nodes.map((node) => (
+          <DraggableCanvasNode
+            key={node.id}
+            {...node}
+            onStartConnection={startConnection}
+            onEndConnection={endConnection}
+            onDoubleClickNode={toggleModal}
+          />
+        ))}
+      </div>
       
       <Modal show={showListeningModal} onHide={closeModal} backdrop="static" centered>
         <Modal.Header closeButton>
