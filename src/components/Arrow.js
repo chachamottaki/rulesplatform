@@ -18,7 +18,7 @@ const Arrow = ({ start, end }) => {
         y1={startY}
         x2={endX}
         y2={endY}
-        stroke="black"
+        stroke="gray"
         strokeWidth="2"
       />
       <line
@@ -26,7 +26,7 @@ const Arrow = ({ start, end }) => {
         y1={endY}
         x2={endX - headLength * Math.cos(angle - Math.PI / 6)}
         y2={endY - headLength * Math.sin(angle - Math.PI / 6)}
-        stroke="black"
+        stroke="gray"
         strokeWidth="2"
       />
       <line
@@ -34,7 +34,7 @@ const Arrow = ({ start, end }) => {
         y1={endY}
         x2={endX - headLength * Math.cos(angle + Math.PI / 6)}
         y2={endY - headLength * Math.sin(angle + Math.PI / 6)}
-        stroke="black"
+        stroke="gray"
         strokeWidth="2"
       />
     </svg>
