@@ -62,7 +62,7 @@ const CreateEmailModalContent = ({ node, saveEmailDetails }) => {
             onChange={handleInputChange}
           />
           <Dropdown className="mt-2 mb-4"> {/* Added mb-4 class for margin-bottom */}
-            <Dropdown.Toggle variant="secondary">
+            <Dropdown.Toggle variant="primary">
               Insert Default
             </Dropdown.Toggle>
             <Dropdown.Menu>
@@ -101,7 +101,7 @@ const CreateEmailModalContent = ({ node, saveEmailDetails }) => {
             onChange={handleInputChange}
           />
           <Dropdown className="mt-2">
-            <Dropdown.Toggle variant="secondary">
+            <Dropdown.Toggle variant="primary">
               Insert Placeholder
             </Dropdown.Toggle>
             <Dropdown.Menu>

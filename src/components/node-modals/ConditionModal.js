@@ -1,40 +1,52 @@
 import React, { useState, useEffect } from 'react';
-import { Form, Button } from 'react-bootstrap';
+import { Form, Button, Dropdown, DropdownButton } from 'react-bootstrap';
 
-const ConditionModalContent = ({ node }) => {
-  const [script, setScript] = useState('');
+const ConditionModalContent = ({ node, saveScript }) => {
+  const predefinedScript = '(sendEmailValue && !invertSendEmail) || (!sendEmailValue && invertSendEmail)';
+  const [script, setScript] = useState(predefinedScript);
 
   useEffect(() => {
     if (node) {
-      setScript(node.script || '');
+      setScript(node.script || predefinedScript);
+      saveScript(node.id, node.script || predefinedScript); // Save the script from node or default predefined script
     }
-  }, [node]);
+  }, [node, saveScript, predefinedScript]);
 
   const handleInputChange = (e) => {
     setScript(e.target.value);
   };
 
+  const handleInsertPlaceholder = (placeholder) => {
+    setScript(script + placeholder);
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Save the script here, for now we just log it
-    console.log('C# Script:', script);
+    saveScript(node.id, script);
   };
 
   return (
     <div>
       <Form onSubmit={handleSubmit}>
-        <Form.Group controlId="formScript">
-          <Form.Label>Enter Condition</Form.Label>
+        <Form.Group controlId="formConditionScript">
+          <Form.Label>Condition Script</Form.Label>
           <Form.Control
             as="textarea"
-            rows={10}
-            placeholder="C# script"
+            rows={3}
             value={script}
             onChange={handleInputChange}
           />
+          <DropdownButton
+            id="dropdown-basic-button"
+            title="Insert Placeholder"
+            className="mt-2"
+          >
+            <Dropdown.Item onClick={() => handleInsertPlaceholder('sendEmailValue')}>sendEmailValue</Dropdown.Item>
+            <Dropdown.Item onClick={() => handleInsertPlaceholder('invertSendEmail')}>invertSendEmail</Dropdown.Item>
+          </DropdownButton>
         </Form.Group>
         <Button variant="primary" type="submit" className="mt-3">
-          Save
+          Confirm
         </Button>
       </Form>
     </div>
