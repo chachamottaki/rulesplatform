@@ -35,7 +35,7 @@ const Canvas = () => {
             updatedNodes[existingIndex] = { ...item, left, top };
             return updatedNodes;
           } else {
-            return [...oldNodes, { ...item, id: item.id || Math.random(), left, top, apiEndpoint: '', script: '' }];
+            return [...oldNodes, { ...item, id: item.id || Math.random(), left, top, apiEndpoint: '', script: '', recipient: '', sender: '', subject: '', content: '' }];
           }
         });
       }
@@ -98,6 +98,12 @@ const Canvas = () => {
     ));
   };
 
+  const saveEmailDetails = (nodeId, emailDetails) => {
+    setNodes(oldNodes => oldNodes.map(node => 
+      node.id === nodeId ? { ...node, ...emailDetails } : node
+    ));
+  };
+
   return (
     <div ref={drop} className="canvas-container">
       {connections.map((conn, index) => (
@@ -136,7 +142,7 @@ const Canvas = () => {
           <Modal.Title>Create Email Node Configurations</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <CreateEmailModalContent node={selectedNode} />
+          <CreateEmailModalContent node={selectedNode} saveEmailDetails={saveEmailDetails} />
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={closeModal}>Close</Button>
