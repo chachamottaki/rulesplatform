@@ -71,6 +71,39 @@ const Canvas = () => {
     }
   };
 
+  const updateConnectorPosition = (nodeId, left, top) => { // NEW FUNCTION
+    const node = nodes.find(n => n.id === nodeId);
+    if (!node) return;
+
+    const connectorLeft = left;
+    const connectorRight = left + 150; // Adjust this value based on your node width
+    const connectorTop = top + 25; // Adjust this value based on your node height
+
+    setConnections(oldConnections => oldConnections.map(conn => {
+      if (conn.start.nodeId === nodeId) {
+        return {
+          ...conn,
+          start: {
+            ...conn.start,
+            x: connectorRight,
+            y: connectorTop,
+          }
+        };
+      }
+      if (conn.end.nodeId === nodeId) {
+        return {
+          ...conn,
+          end: {
+            ...conn.end,
+            x: connectorLeft,
+            y: connectorTop,
+          }
+        };
+      }
+      return conn;
+    }));
+  };
+
   const toggleModal = (nodeId) => {
     const node = nodes.find(n => n.id === nodeId);
     if (node) {
@@ -136,6 +169,7 @@ const Canvas = () => {
             onStartConnection={startConnection}
             onEndConnection={endConnection}
             onDoubleClickNode={toggleModal}
+            onUpdatePosition={updateConnectorPosition} // NEW PROP
           />
         ))}
       </div>

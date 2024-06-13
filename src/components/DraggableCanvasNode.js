@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useDrag } from 'react-dnd';
 import { NodeTypes } from './NodeTypes';
 import './NodeSidebar.css'; // Ensure this is imported for styles
 
-const DraggableCanvasNode = ({ id, name, type, left, top, onStartConnection, onEndConnection, onDoubleClickNode }) => { // UPDATED
+const DraggableCanvasNode = ({ id, name, type, left, top, onStartConnection, onEndConnection, onDoubleClickNode, onUpdatePosition }) => {
   const validType = NodeTypes[type?.toUpperCase()] || NodeTypes.DEFAULT;
   const [{ isDragging }, drag] = useDrag({
     type: validType,
@@ -11,6 +11,14 @@ const DraggableCanvasNode = ({ id, name, type, left, top, onStartConnection, onE
     collect: monitor => ({
       isDragging: !!monitor.isDragging(),
     }),
+    end: (item, monitor) => { // UPDATED
+      if (!monitor.didDrop()) {
+        const delta = monitor.getDifferenceFromInitialOffset();
+        if (delta) {
+          onUpdatePosition(id, left + delta.x, top + delta.y);
+        }
+      }
+    },
   });
 
   const handleMouseClick = (event, connectorType) => { // UPDATED
@@ -24,6 +32,10 @@ const DraggableCanvasNode = ({ id, name, type, left, top, onStartConnection, onE
       onEndConnection(id, connectorType, centerX, centerY); // End connection on click
     }
   };
+
+  useEffect(() => {
+    onUpdatePosition(id, left, top);
+  }, [left, top]);
 
   return (
     <div
