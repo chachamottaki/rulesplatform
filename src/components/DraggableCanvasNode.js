@@ -16,7 +16,7 @@ const DraggableCanvasNode = ({ id, name, type, left, top, onStartConnection, onE
   return (
     <div
       ref={drag}
-      className="node"
+      className="canvas-node"
       style={{
         position: 'absolute',
         left,

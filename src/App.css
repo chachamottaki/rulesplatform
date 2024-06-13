@@ -109,7 +109,7 @@ input {
 .sidebar ul li a .icon {
   margin-right: 10px;
   font-size: 18px;
-  color: #007bff; /* Set the icon color to blue */
+  color: #243c70; /* Set the icon color to blue */
 }
 
 /* Active link styling */
@@ -119,7 +119,7 @@ input {
 }
 
 .sidebar ul li a.active .icon {
-  color: #007bff; /* Ensure active icon color remains blue */
+  color: #0069b4; /* Ensure active icon color remains blue */
 }
 
 ul {
@@ -238,10 +238,6 @@ li.active {
   font-weight: bold;
   display: flex;
   align-items: center;
-}
-
-.header-left .logo .fas {
-  margin-right: 10px;
 }
 
 .header-right {
