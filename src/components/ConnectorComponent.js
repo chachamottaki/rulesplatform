@@ -15,7 +15,7 @@ const ConnectorComponent = ({ start, end }) => {
       y1={startY}
       x2={endX}
       y2={endY}
-      color="black"
+      color="gray"
       thickness={2}
       headSize={6}
     />

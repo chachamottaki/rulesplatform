@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { useDrop } from 'react-dnd';
 import DraggableCanvasNode from './DraggableCanvasNode';
-import Arrow from './Arrow'; // UPDATED
+import Arrow from './Arrow';
 import { NodeTypes } from './NodeTypes';
 import { Modal, Button } from 'react-bootstrap';
 import ListeningModalContent from './node-modals/ListeningModal';
@@ -9,19 +9,21 @@ import ConditionModalContent from './node-modals/ConditionModal';
 import CreateEmailModalContent from './node-modals/CreateEmailModal';
 import SendEmailModalContent from './node-modals/SendEmailModal';
 
+const NODE_WIDTH = 150; // Define a fixed width for all nodes
+
 const Canvas = () => {
   const [nodes, setNodes] = useState([]);
   const [connections, setConnections] = useState([]);
-  const [connecting, setConnecting] = useState(false); // NEW STATE
-  const [startConnector, setStartConnector] = useState(null); // NEW STATE
-  const [currentMousePosition, setCurrentMousePosition] = useState({ x: 0, y: 0 }); // NEW STATE
+  const [connecting, setConnecting] = useState(false);
+  const [startConnector, setStartConnector] = useState(null);
+  const [currentMousePosition, setCurrentMousePosition] = useState({ x: 0, y: 0 });
   const [showListeningModal, setShowListeningModal] = useState(false);
   const [showConditionModal, setShowConditionModal] = useState(false);
   const [showCreateEmailModal, setShowCreateEmailModal] = useState(false);
   const [showSendEmailModal, setShowSendEmailModal] = useState(false);
   const [selectedNode, setSelectedNode] = useState(null);
 
-  const canvasRef = useRef(null); // ADD REFERENCE TO CANVAS
+  const canvasRef = useRef(null);
 
   const [{ canDrop, isOver }, drop] = useDrop({
     accept: Object.values(NodeTypes),
@@ -35,10 +37,10 @@ const Canvas = () => {
           const existingIndex = oldNodes.findIndex(node => node.id === item.id);
           if (existingIndex !== -1) {
             const updatedNodes = [...oldNodes];
-            updatedNodes[existingIndex] = { ...item, left, top };
+            updatedNodes[existingIndex] = { ...item, left, top, width: NODE_WIDTH }; // Ensure node has the fixed width
             return updatedNodes;
           } else {
-            return [...oldNodes, { ...item, id: item.id || Math.random(), left, top, apiEndpoint: '', script: '', recipient: '', sender: '', subject: '', content: '' }];
+            return [...oldNodes, { ...item, id: item.id || Math.random(), left, top, width: NODE_WIDTH, apiEndpoint: '', script: '', recipient: '', sender: '', subject: '', content: '' }];
           }
         });
       }
@@ -49,13 +51,13 @@ const Canvas = () => {
     }),
   });
 
-  const startConnection = (nodeId, connectorType, x, y) => { // UPDATED
+  const startConnection = (nodeId, connectorType, x, y) => {
     const canvasRect = canvasRef.current.getBoundingClientRect();
     setConnecting(true);
     setStartConnector({ nodeId, connectorType, x: x - canvasRect.left, y: y - canvasRect.top });
   };
 
-  const endConnection = (nodeId, connectorType, x, y) => { // UPDATED
+  const endConnection = (nodeId, connectorType, x, y) => {
     if (connecting && startConnector.nodeId !== nodeId) {
       const canvasRect = canvasRef.current.getBoundingClientRect();
       setConnections([...connections, { start: startConnector, end: { nodeId, connectorType, x: x - canvasRect.left, y: y - canvasRect.top } }]);
@@ -71,12 +73,12 @@ const Canvas = () => {
     }
   };
 
-  const updateConnectorPosition = (nodeId, left, top) => { // NEW FUNCTION
+  const updateConnectorPosition = (nodeId, left, top) => {
     const node = nodes.find(n => n.id === nodeId);
     if (!node) return;
 
     const connectorLeft = left;
-    const connectorRight = left + 150; // Adjust this value based on your node width
+    const connectorRight = left + NODE_WIDTH; // Use the fixed node width
     const connectorTop = top + 25; // Adjust this value based on your node height
 
     setConnections(oldConnections => oldConnections.map(conn => {
@@ -85,8 +87,8 @@ const Canvas = () => {
           ...conn,
           start: {
             ...conn.start,
-            x: connectorRight,
-            y: connectorTop,
+            x: connectorRight, // Recalculating the x position of the start connector
+            y: connectorTop,   // Recalculating the y position of the start connector
           }
         };
       }
@@ -95,8 +97,8 @@ const Canvas = () => {
           ...conn,
           end: {
             ...conn.end,
-            x: connectorLeft,
-            y: connectorTop,
+            x: connectorLeft, // Recalculating the x position of the end connector
+            y: connectorTop,  // Recalculating the y position of the end connector
           }
         };
       }
@@ -157,10 +159,10 @@ const Canvas = () => {
     <div ref={canvasRef} className="canvas-container" onMouseMove={handleMouseMove}>
       <div ref={drop} className="canvas-area">
         {connections.map((conn, index) => (
-          <Arrow key={index} start={{ x: conn.start.x, y: conn.start.y }} end={{ x: conn.end.x, y: conn.end.y }} /> // UPDATED
+          <Arrow key={index} start={{ x: conn.start.x, y: conn.start.y }} end={{ x: conn.end.x, y: conn.end.y }} />
         ))}
         {connecting && startConnector && (
-          <Arrow start={{ x: startConnector.x, y: startConnector.y }} end={currentMousePosition} /> // UPDATED
+          <Arrow start={{ x: startConnector.x, y: startConnector.y }} end={currentMousePosition} />
         )}
         {nodes.map((node) => (
           <DraggableCanvasNode
@@ -169,7 +171,8 @@ const Canvas = () => {
             onStartConnection={startConnection}
             onEndConnection={endConnection}
             onDoubleClickNode={toggleModal}
-            onUpdatePosition={updateConnectorPosition} // NEW PROP
+            onUpdatePosition={updateConnectorPosition} // Propagate position updates
+            width={NODE_WIDTH} // Ensure node has the fixed width
           />
         ))}
       </div>

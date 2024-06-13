@@ -3,6 +3,8 @@ import { useDrag } from 'react-dnd';
 import { NodeTypes } from './NodeTypes';
 import './NodeSidebar.css'; // Ensure this is imported for styles
 
+const NODE_WIDTH = 150; // Define a fixed width for all nodes
+
 const DraggableCanvasNode = ({ id, name, type, left, top, onStartConnection, onEndConnection, onDoubleClickNode, onUpdatePosition }) => {
   const validType = NodeTypes[type?.toUpperCase()] || NodeTypes.DEFAULT;
   const [{ isDragging }, drag] = useDrag({
@@ -11,17 +13,17 @@ const DraggableCanvasNode = ({ id, name, type, left, top, onStartConnection, onE
     collect: monitor => ({
       isDragging: !!monitor.isDragging(),
     }),
-    end: (item, monitor) => { // UPDATED
+    end: (item, monitor) => {
       if (!monitor.didDrop()) {
         const delta = monitor.getDifferenceFromInitialOffset();
         if (delta) {
-          onUpdatePosition(id, left + delta.x, top + delta.y);
+          onUpdatePosition(id, left + delta.x, top + delta.y); // Update node position after drag
         }
       }
     },
   });
 
-  const handleMouseClick = (event, connectorType) => { // UPDATED
+  const handleMouseClick = (event, connectorType) => {
     event.stopPropagation();
     const rect = event.target.getBoundingClientRect();
     const centerX = rect.left + rect.width / 2 + window.scrollX;
@@ -34,7 +36,7 @@ const DraggableCanvasNode = ({ id, name, type, left, top, onStartConnection, onE
   };
 
   useEffect(() => {
-    onUpdatePosition(id, left, top);
+    onUpdatePosition(id, left, top); // Update position when `left` or `top` changes
   }, [left, top]);
 
   return (
@@ -45,10 +47,11 @@ const DraggableCanvasNode = ({ id, name, type, left, top, onStartConnection, onE
         position: 'absolute',
         left,
         top,
+        width: NODE_WIDTH, // Set the fixed width for the node
         opacity: isDragging ? 0.5 : 1,
         cursor: 'move',
       }}
-      onDoubleClick={() => onDoubleClickNode(id)} // RETAINED
+      onDoubleClick={() => onDoubleClickNode(id)}
     >
       <div className="connector-point left" onClick={(event) => handleMouseClick(event, 'left')} /> {/* UPDATED */}
       {name}
