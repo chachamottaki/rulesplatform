@@ -160,30 +160,43 @@ const Canvas = () => {
     const payload = {
       name: "Example Rule Chain",
       description: "This is an example rule chain with a listening node, email creation node, and email sending node.",
-      nodes: nodes.map(node => ({
-        ruleNodeId: 0,
-        nodeType: node.type,
-        configurationJson: JSON.stringify({
+      nodes: nodes.map(node => {
+        const configuration = {
           apiEndpoint: node.apiEndpoint || "",
           script: node.script || "",
           recipient: node.recipient || "",
           sender: node.sender || "",
           subject: node.subject || "",
           content: node.content || ""
-        }),
-        nodeConnections: connections.filter(conn => conn.start.nodeId === node.id).map(conn => ({
-          sourceNodeIndex: node.id,
-          targetNodeIndex: conn.end.nodeId
-        })),
-        ruleChainID: 0
-      }))
+        };
+
+        const nodeConnections = connections
+          .filter(conn => conn.start.nodeId === node.id)
+          .map(conn => ({
+            targetNodeIndex: conn.end.nodeId
+          }));
+
+        return {
+          ruleNodeId: 0,
+          nodeType: node.type,
+          configurationJson: JSON.stringify(configuration),
+          nodeConnections,
+          ruleChainID: 0
+        };
+      })
     };
 
+    console.log('Payload:', JSON.stringify(payload, null, 2)); // Log payload for debugging
+
     try {
-      const response = await axios.post('https://localhost:7113/api/RuleChains', payload);
+      const response = await axios.post('https://your-backend-endpoint/api/rule-chains', payload, {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
       console.log('Saved successfully:', response.data);
     } catch (error) {
-      console.error('Error saving rule chain:', error);
+      console.error('Error saving rule chain:', error.response ? error.response.data : error.message);
     }
   };
 
@@ -208,7 +221,7 @@ const Canvas = () => {
           />
         ))}
         <Button onClick={handleSave} style={{ position: 'absolute', bottom: '10px', right: '10px' }}>
-          Save Rule
+          Save Rule Chain
         </Button>
       </div>
       

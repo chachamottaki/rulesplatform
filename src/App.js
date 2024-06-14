@@ -12,12 +12,12 @@ import RuleChains from './pages/RuleChains';
 import axios from 'axios';
 
 function App() {
-  useEffect(() => {
+  /*useEffect(() => {
     axios.get('https://localhost:7113')
       .then((response) => {
         console.log(response.data);
       });
-  }, []);
+  }, []);*/
 
   return (
     <DndProvider backend={HTML5Backend}>
