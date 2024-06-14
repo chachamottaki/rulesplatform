@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { Modal, Button } from 'react-bootstrap';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import '../res/RuleChains.css'; // Import the CSS file
 import CreateRuleComponent from '../components/CreateRuleComponent'; // Import the CreateRuleComponent
 
 const RuleChains = () => {
   const [ruleChains, setRuleChains] = useState([]);
   const [showCreateRule, setShowCreateRule] = useState(false); // State to show CreateRuleComponent
+  const [showDeleteModal, setShowDeleteModal] = useState(false); // State to show delete confirmation modal
+  const [ruleToDelete, setRuleToDelete] = useState(null); // State to store the rule to be deleted
 
   useEffect(() => {
     fetchRuleChains();
@@ -37,10 +41,21 @@ const RuleChains = () => {
     }
   };
 
-  const handleDelete = async (ruleChainId) => {
+  const handleShowDeleteModal = (ruleChain) => {
+    setRuleToDelete(ruleChain);
+    setShowDeleteModal(true);
+  };
+
+  const handleCloseDeleteModal = () => {
+    setShowDeleteModal(false);
+    setRuleToDelete(null);
+  };
+
+  const handleDelete = async () => {
     try {
-      await axios.delete(`https://localhost:7113/api/RuleChains/${ruleChainId}`);
-      fetchRuleChains();
+      await axios.delete(`https://localhost:7113/api/RuleChains/${ruleToDelete.ruleChainId}`);
+      handleCloseDeleteModal();
+      fetchRuleChains(); // Refetch the rules after deletion
     } catch (error) {
       console.error('Error deleting rule chain:', error.response ? error.response.data : error.message);
     }
@@ -66,12 +81,12 @@ const RuleChains = () => {
         </thead>
         <tbody>
           {ruleChains.map((ruleChain) => (
-            <tr key={ruleChain.id}>
+            <tr key={ruleChain.ruleChainId}>
               <td>
                 <input
                   type="checkbox"
                   checked={ruleChain.isActive}
-                  onChange={() => handleActivateToggle(ruleChain.id, ruleChain.isActive)}
+                  onChange={() => handleActivateToggle(ruleChain.ruleChainId, ruleChain.isActive)}
                 />
               </td>
               <td>{ruleChain.name}</td>
@@ -83,7 +98,7 @@ const RuleChains = () => {
                 </button>
               </td>
               <td>
-                <button onClick={() => handleDelete(ruleChain.id)} className="delete-button">
+                <button onClick={() => handleShowDeleteModal(ruleChain)} className="delete-button">
                   Delete
                 </button>
               </td>
@@ -94,6 +109,26 @@ const RuleChains = () => {
       <button onClick={handleCreateRule} className="create-button">
         Create Rule
       </button>
+
+      {/* Delete Confirmation Modal */}
+      <Modal show={showDeleteModal} onHide={handleCloseDeleteModal}>
+        <Modal.Header closeButton>
+          <Modal.Title>Confirm Delete</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          Are you sure you want to delete this rule?
+          <div><strong>Name:</strong> {ruleToDelete?.name}</div>
+          <div><strong>Description:</strong> {ruleToDelete?.description}</div>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleCloseDeleteModal}>
+            Cancel
+          </Button>
+          <Button variant="danger" onClick={handleDelete}>
+            Confirm
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 };
