@@ -3,10 +3,10 @@ import { Form, Button, Dropdown, DropdownButton } from 'react-bootstrap';
 
 const ListeningModalContent = ({ node, saveApiEndpoint }) => {
   const apiEndpoints = [
-    'https://api.example.com/endpoint1',
-    'https://api.example.com/endpoint2',
-    'https://api.example.com/endpoint3',
-    'https://api.example.com/endpoint4'
+    '/api/Sensor/districts/{district}/installations/{assetType}/{assetKey}/sensors/{sensorKey}:{sensorType}',
+    '/api.example.com/endpoint2',
+    '/api.example.com/endpoint3',
+    '/api.example.com/endpoint4'
   ];
 
   const [apiEndpoint, setApiEndpoint] = useState(apiEndpoints[0]); // Initialize with the first endpoint
