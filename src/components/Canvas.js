@@ -169,15 +169,16 @@ const Canvas = () => {
           subject: node.subject || "",
           content: node.content || ""
         };
-
+  
         const nodeConnections = connections
           .filter(conn => conn.start.nodeId === node.id)
           .map(conn => ({
-            targetNodeIndex: conn.end.nodeId
+            targetNodeIndex: conn.end.nodeId // Keeping this as a string as per your last note
           }));
-
+  
         return {
           ruleNodeId: 0,
+          nodeUUID: node.id, // Added nodeUUID field
           nodeType: node.type,
           configurationJson: JSON.stringify(configuration),
           nodeConnections,
@@ -185,11 +186,11 @@ const Canvas = () => {
         };
       })
     };
-
+  
     console.log('Payload:', JSON.stringify(payload, null, 2)); // Log payload for debugging
-
+  
     try {
-      const response = await axios.post('https://your-backend-endpoint/api/rule-chains', payload, {
+      const response = await axios.post('https://localhost:7113/api/RuleChains', payload, {
         headers: {
           'Content-Type': 'application/json'
         }
@@ -199,6 +200,7 @@ const Canvas = () => {
       console.error('Error saving rule chain:', error.response ? error.response.data : error.message);
     }
   };
+  
 
   return (
     <div ref={canvasRef} className="canvas-container" onMouseMove={handleMouseMove}>
