@@ -214,7 +214,7 @@ const EditCanvas = ({ initialNodes = [], initialConnections = [] }) => {
     <div ref={canvasRef} onMouseMove={handleMouseMove}>
       <div ref={drop} className="canvas-area">
         {connections.map((conn, index) => (
-          <Arrow key={index} start={{ x: conn.start.x, y: conn.start.y }} end={{ x: conn.end.x, y: conn.end.y }} />
+          <Arrow key={index} start={{ x: nodes.find(node => node.id === conn.start.nodeId)?.left + NODE_WIDTH, y: nodes.find(node => node.id === conn.start.nodeId)?.top + 25 }} end={{ x: nodes.find(node => node.id === conn.end.nodeId)?.left, y: nodes.find(node => node.id === conn.end.nodeId)?.top + 25 }} />
         ))}
         {connecting && startConnector && (
           <Arrow start={{ x: startConnector.x, y: startConnector.y }} end={currentMousePosition} />
