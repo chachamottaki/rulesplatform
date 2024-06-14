@@ -67,7 +67,6 @@ const RuleChains = () => {
 
   return (
     <div className="rule-chains-page">
-      <h2>Rule Chains</h2>
       <table className="custom-table">
         <thead>
           <tr>
