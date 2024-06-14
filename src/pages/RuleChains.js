@@ -4,12 +4,15 @@ import { Modal, Button } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../res/RuleChains.css'; // Import the CSS file
 import CreateRuleComponent from '../components/CreateRuleComponent'; // Import the CreateRuleComponent
+import EditRuleComponent from '../components/EditRuleComponent'; // Import the EditRuleComponent
 
 const RuleChains = () => {
   const [ruleChains, setRuleChains] = useState([]);
   const [showCreateRule, setShowCreateRule] = useState(false); // State to show CreateRuleComponent
+  const [showEditRule, setShowEditRule] = useState(false); // State to show EditRuleComponent
   const [showDeleteModal, setShowDeleteModal] = useState(false); // State to show delete confirmation modal
   const [ruleToDelete, setRuleToDelete] = useState(null); // State to store the rule to be deleted
+  const [ruleToEdit, setRuleToEdit] = useState(null); // State to store the rule to be edited
 
   useEffect(() => {
     fetchRuleChains();
@@ -30,6 +33,7 @@ const RuleChains = () => {
 
   const handleBackToRuleChains = () => {
     setShowCreateRule(false);
+    setShowEditRule(false);
   };
 
   const handleActivateToggle = async (ruleChainId, isActive) => {
@@ -61,8 +65,17 @@ const RuleChains = () => {
     }
   };
 
+  const handleEditRule = (ruleChainId) => {
+    setRuleToEdit(ruleChainId);
+    setShowEditRule(true);
+  };
+
   if (showCreateRule) {
     return <CreateRuleComponent onBack={handleBackToRuleChains} />;
+  }
+
+  if (showEditRule) {
+    return <EditRuleComponent onBack={handleBackToRuleChains} ruleChainId={ruleToEdit} />;
   }
 
   return (
@@ -92,7 +105,7 @@ const RuleChains = () => {
               <td>{ruleChain.description}</td>
               <td>{ruleChain.isActive ? 'Active' : 'Inactive'}</td>
               <td>
-                <button onClick={() => setShowCreateRule(true)} className="edit-button">
+                <button onClick={() => handleEditRule(ruleChain.ruleChainId)} className="edit-button">
                   Edit
                 </button>
               </td>
