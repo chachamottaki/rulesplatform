@@ -203,7 +203,7 @@ const Canvas = () => {
   
 
   return (
-    <div ref={canvasRef} className="canvas-container" onMouseMove={handleMouseMove}>
+    <div ref={canvasRef} onMouseMove={handleMouseMove}>
       <div ref={drop} className="canvas-area">
         {connections.map((conn, index) => (
           <Arrow key={index} start={{ x: conn.start.x, y: conn.start.y }} end={{ x: conn.end.x, y: conn.end.y }} />

@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDrag } from 'react-dnd';
 import { NodeTypes } from './NodeTypes';
-import './NodeSidebar.css'; // Ensure this is imported for styles
+import '../res/NodeSidebar.css'; // Ensure this is imported for styles
 
 const NODE_WIDTH = 150; // Define a fixed width for all nodes
 

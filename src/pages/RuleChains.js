@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import Canvas from '../components/Canvas';
 import '../res/RuleChains.css'; // Import the CSS file
+import CreateRuleComponent from '../components/CreateRuleComponent'; // Import the CreateRuleComponent
 
 const RuleChains = () => {
   const [ruleChains, setRuleChains] = useState([]);
-  const [showCanvas, setShowCanvas] = useState(false);
+  const [showCreateRule, setShowCreateRule] = useState(false); // State to show CreateRuleComponent
 
   useEffect(() => {
     fetchRuleChains();
@@ -21,7 +21,11 @@ const RuleChains = () => {
   };
 
   const handleCreateRule = () => {
-    setShowCanvas(true);
+    setShowCreateRule(true);
+  };
+
+  const handleBackToRuleChains = () => {
+    setShowCreateRule(false);
   };
 
   const handleActivateToggle = async (ruleChainId, isActive) => {
@@ -42,8 +46,13 @@ const RuleChains = () => {
     }
   };
 
+  if (showCreateRule) {
+    return <CreateRuleComponent onBack={handleBackToRuleChains} />;
+  }
+
   return (
     <div className="rule-chains-page">
+      <h2>Rule Chains</h2>
       <table className="custom-table">
         <thead>
           <tr>
@@ -69,7 +78,7 @@ const RuleChains = () => {
               <td>{ruleChain.description}</td>
               <td>{ruleChain.isActive ? 'Active' : 'Inactive'}</td>
               <td>
-                <button onClick={() => setShowCanvas(true)} className="edit-button">
+                <button onClick={() => setShowCreateRule(true)} className="edit-button">
                   Edit
                 </button>
               </td>
@@ -85,7 +94,6 @@ const RuleChains = () => {
       <button onClick={handleCreateRule} className="create-button">
         Create Rule
       </button>
-      {showCanvas && <Canvas />}
     </div>
   );
 };

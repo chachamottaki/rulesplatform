@@ -1,5 +1,5 @@
 .rule-chains-page {
-    margin-top:20px;
+    margin-top: 20px;
     padding: 20px;
   }
   
@@ -9,18 +9,17 @@
   
   .custom-table {
     width: 100%;
-    border-collapse: separate; /* Ensure borders do not collapse */
-    border-radius: 6px;
+    border-collapse: separate;
+    border-radius: 10px;
     overflow: hidden;
     background-color: white;
-    border: 1px solid #dee2e6cc; /* Border color for the table */
+    border: 1px solid #dee2e6; /* Border color for the table */
   }
   
   .custom-table th,
   .custom-table td {
     border: 1px solid #dee2e6;
     padding: 8px;
-    border-radius: 2px;
     text-align: center;
     background-color: white;
   }
@@ -45,21 +44,11 @@
     opacity: 0.8;
   }
   
-  button[onclick*="setShowCanvas"] {
-    background-color: #007bff;
-    color: white;
-  }
-  
-  button[onclick*="handleDelete"] {
-    background-color: #dc3545;
-    color: white;
-  }
-  
   .create-button {
     margin-top: 20px;
     padding: 10px 20px;
     border-radius: 8px;
-    background-color: #0069b4;
+    background-color: #28a745;
     color: white;
     border: none;
     cursor: pointer;
@@ -77,12 +66,27 @@
     border: none;
     cursor: pointer;
   }
-
+  
   .delete-button {
     padding: 10px 20px;
     border-radius: 8px;
-    background-color: #c04c4b;
+    background-color: #dc3545;
     color: white;
     border: none;
     cursor: pointer;
   }
+  
+  .back-button {
+    padding: 10px 20px;
+    border-radius: 8px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+    margin-bottom: 20px;
+  }
+  
+  .back-button:hover {
+    opacity: 0.8;
+  }
+  

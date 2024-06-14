@@ -1,7 +1,7 @@
 import React from 'react';
 import DraggableNode from './DraggableNode';
 import { v4 as uuidv4 } from 'uuid';
-import './NodeSidebar.css'; // Import the CSS file
+import '../res/NodeSidebar.css'; // Import the CSS file
 
 const NodeSidebar = () => {
   const nodes = [

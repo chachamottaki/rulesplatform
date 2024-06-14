@@ -1,16 +1,25 @@
 import React from 'react';
 import Canvas from '../components/Canvas';
 import NodeSidebar from '../components/NodeSidebar';
+import { Button } from 'react-bootstrap';
+import '../res/CreateRuleComponent.css'; // Import the CSS file
 
-const CreateRule = () => {
+const CreateRuleComponent = ({ onBack }) => {
   return (
-    <div className="rulechains-container">
-      <div className="nodes-sidebar-container">
-        <NodeSidebar />
+    <div className="create-rule-container">
+      <Button onClick={onBack} className="back-button">
+        Back
+      </Button>
+      <div className="main-content">
+        <div className="nodes-sidebar-container">
+          <NodeSidebar />
+        </div>
+        <div className="canvas-container">
+          <Canvas />
+        </div>
       </div>
-      <Canvas />
     </div>
   );
 };
 
-export default CreateRule;
+export default CreateRuleComponent;
