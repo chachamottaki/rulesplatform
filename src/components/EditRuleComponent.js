@@ -23,8 +23,8 @@ const EditRuleComponent = ({ onBack, ruleChainId }) => {
           id: node.nodeUUID,
           name: node.nodeType,
           type: node.nodeType,
-          left: config.left || 0, // Default to 0 if not set
-          top: config.top || 0, // Default to 0 if not set
+          left: node.left || 0, // Default to 0 if not set
+          top: node.top || 0, // Default to 0 if not set
           ...config
         };
       });
