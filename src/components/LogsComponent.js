@@ -22,9 +22,6 @@ const LogsComponent = ({ onBack }) => {
 
   return (
     <div className="logs-container">
-      <Button onClick={onBack} className="back-button">
-        Back
-      </Button>
       <Table striped bordered hover>
         <thead>
           <tr>

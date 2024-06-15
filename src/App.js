@@ -23,7 +23,7 @@ function App() {
               <Routes>
                 <Route path="/" element={<DeviceConfig />} />
                 <Route path="/rule-chains" element={<RuleChains />} />
-                <Route path="/logs" component={<LogsComponent/>} />
+                <Route path="/logs" element={<LogsComponent/>} />
               </Routes>
             </div>
           </div>
