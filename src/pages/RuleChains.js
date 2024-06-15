@@ -36,9 +36,9 @@ const RuleChains = () => {
     setShowEditRule(false);
   };
 
-  const handleActivateToggle = async (ruleChainId, isActive) => {
+  const handleActivateToggle = async (ruleChainId) => {
     try {
-      await axios.put(`https://localhost:7113/api/RuleChains/${ruleChainId}/activate`, { isActive: !isActive });
+      await axios.put(`https://localhost:7113/api/RuleChains/${ruleChainId}/toggle-active`);
       fetchRuleChains();
     } catch (error) {
       console.error('Error updating rule chain status:', error.response ? error.response.data : error.message);
@@ -105,7 +105,7 @@ const RuleChains = () => {
                 <input
                   type="checkbox"
                   checked={ruleChain.isActive}
-                  onChange={() => handleActivateToggle(ruleChain.ruleChainId, ruleChain.isActive)}
+                  onChange={() => handleActivateToggle(ruleChain.ruleChainId)}
                 />
               </td>
               <td>{ruleChain.name}</td>
