@@ -199,7 +199,7 @@ const EditCanvas = ({ initialNodes = [], initialConnections = [] }) => {
     console.log('Payload:', JSON.stringify(payload, null, 2)); // Log payload for debugging
   
     try {
-      const response = await axios.post('https://localhost:7113/api/RuleChains', payload, {
+      const response = await axios.put('https://localhost:7113/api/RuleChains', payload, {
         headers: {
           'Content-Type': 'application/json'
         }
@@ -231,7 +231,7 @@ const EditCanvas = ({ initialNodes = [], initialConnections = [] }) => {
           />
         ))}
         <Button onClick={handleSave} style={{ position: 'absolute', bottom: '10px', right: '10px' }}>
-          Save Rule Chain
+          Save Edited Rule Chain
         </Button>
       </div>
       
