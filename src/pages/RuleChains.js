@@ -117,7 +117,7 @@ const RuleChains = () => {
                 </button>
               </td>
               <td>
-                <button onClick={() => handleShowDeleteModal(ruleChain)} className="delete-button">
+                <button onClick={() => handleShowDeleteModal(ruleChain)} className="delete-button-rc">
                   Delete
                 </button>
               </td>

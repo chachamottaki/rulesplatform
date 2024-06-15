@@ -67,7 +67,7 @@
     cursor: pointer;
   }
   
-  .delete-button {
+  .delete-button-rc {
     padding: 10px 20px;
     border-radius: 8px;
     background-color: #dc3545;

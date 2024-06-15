@@ -163,6 +163,11 @@ const EditCanvas = ({ initialNodes = [], initialConnections = [], existingRuleCh
     ));
   };
 
+  const deleteNode = (nodeId) => {
+    setNodes(oldNodes => oldNodes.filter(node => node.id !== nodeId));
+    setConnections(oldConnections => oldConnections.filter(conn => conn.start.nodeId !== nodeId && conn.end.nodeId !== nodeId));
+  };
+
   const handleSave = async () => {
     const payload = {
       ruleChainId: existingRuleChainId, // Ensure you pass the ruleChainId
@@ -228,6 +233,7 @@ const EditCanvas = ({ initialNodes = [], initialConnections = [], existingRuleCh
             onEndConnection={endConnection}
             onDoubleClickNode={toggleModal}
             onUpdatePosition={updateConnectorPosition} // Propagate position updates
+            onDeleteNode={deleteNode} // Add delete functionality
             width={NODE_WIDTH} // Ensure node has the fixed width
           />
         ))}

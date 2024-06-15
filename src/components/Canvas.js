@@ -156,6 +156,11 @@ const Canvas = () => {
     ));
   };
 
+  const handleDeleteNode = (nodeId) => { // Add handleDeleteNode
+    setNodes(oldNodes => oldNodes.filter(node => node.id !== nodeId));
+    setConnections(oldConnections => oldConnections.filter(conn => conn.start.nodeId !== nodeId && conn.end.nodeId !== nodeId));
+  };
+
   const handleSave = async () => {
     const payload = {
       name: "Example Rule Chain",
@@ -169,13 +174,13 @@ const Canvas = () => {
           subject: node.subject || "",
           content: node.content || ""
         };
-  
+
         const nodeConnections = connections
           .filter(conn => conn.start.nodeId === node.id)
           .map(conn => ({
             targetNodeIndex: conn.end.nodeId // Keeping this as a string as per your last note
           }));
-  
+
         return {
           ruleNodeId: 0,
           nodeUUID: node.id, // Added nodeUUID field
@@ -186,9 +191,9 @@ const Canvas = () => {
         };
       })
     };
-  
+
     console.log('Payload:', JSON.stringify(payload, null, 2)); // Log payload for debugging
-  
+
     try {
       const response = await axios.post('https://localhost:7113/api/RuleChains', payload, {
         headers: {
@@ -200,7 +205,6 @@ const Canvas = () => {
       console.error('Error saving rule chain:', error.response ? error.response.data : error.message);
     }
   };
-  
 
   return (
     <div ref={canvasRef} onMouseMove={handleMouseMove}>
@@ -219,6 +223,7 @@ const Canvas = () => {
             onEndConnection={endConnection}
             onDoubleClickNode={toggleModal}
             onUpdatePosition={updateConnectorPosition} // Propagate position updates
+            onDeleteNode={handleDeleteNode} // Pass handleDeleteNode
             width={NODE_WIDTH} // Ensure node has the fixed width
           />
         ))}
@@ -226,7 +231,7 @@ const Canvas = () => {
           Save Rule Chain
         </Button>
       </div>
-      
+
       <Modal show={showListeningModal} onHide={closeModal} backdrop="static" centered>
         <Modal.Header closeButton>
           <Modal.Title>Listening Node Configurations</Modal.Title>

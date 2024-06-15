@@ -23,6 +23,7 @@
   }
 
   .canvas-node {
+    position: relative;
     padding: 10px;
     margin-bottom: 10px;
     background-color: #3f8efc;
@@ -32,6 +33,15 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     transition: background-color 0.2s;
   }
+  
+  .canvas-node button {
+    display: none;
+  }
+  
+  .canvas-node:hover button {
+    display: block;
+  }
+  
 
 /* Connector point styling */
 .connector-point {

@@ -1,11 +1,14 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDrag } from 'react-dnd';
 import { NodeTypes } from './NodeTypes';
-import '../res/NodeSidebar.css'; // Ensure this is imported for styles
+import '../res/NodeSidebar.css'; 
+import '../res/DraggableCanvasNode.css';
 
 const NODE_WIDTH = 150; // Define a fixed width for all nodes
 
-const DraggableCanvasNode = ({ id, name, type, left, top, onStartConnection, onEndConnection, onDoubleClickNode, onUpdatePosition }) => {
+const DraggableCanvasNode = ({ id, name, type, left, top, onStartConnection, onEndConnection, onDoubleClickNode, onUpdatePosition, onDeleteNode }) => { // Add onDeleteNode
+  const [isHovered, setIsHovered] = useState(false); // Add hover state
+
   const validType = NodeTypes[type?.toUpperCase()] || NodeTypes.DEFAULT;
   const [{ isDragging }, drag] = useDrag({
     type: validType,
@@ -52,13 +55,23 @@ const DraggableCanvasNode = ({ id, name, type, left, top, onStartConnection, onE
         cursor: 'move',
       }}
       onDoubleClick={() => onDoubleClickNode(id)}
+      onMouseEnter={() => setIsHovered(true)} // Set hover state on mouse enter
+      onMouseLeave={() => setIsHovered(false)} // Unset hover state on mouse leave
     >
-      <div className="connector-point left" onClick={(event) => handleMouseClick(event, 'left')} /> {/* UPDATED */}
+      <div className="connector-point left" onClick={(event) => handleMouseClick(event, 'left')} /> 
       {name}
       <div
         className="connector-point right"
-        onClick={(event) => handleMouseClick(event, 'right')} // UPDATED
+        onClick={(event) => handleMouseClick(event, 'right')} 
       />
+      {isHovered && ( // Show delete button only when node is hovered
+        <button
+          onClick={() => onDeleteNode(id)} // Add onClick handler for delete
+          className="delete-button"
+        >
+          ×
+        </button>
+      )}
     </div>
   );
 };
