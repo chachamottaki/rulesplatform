@@ -65,8 +65,8 @@ const RuleChains = () => {
     }
   };
 
-  const handleEditRule = (ruleChainId) => {
-    setRuleToEdit(ruleChainId);
+  const handleEditRule = (ruleChain) => {
+    setRuleToEdit(ruleChain);
     setShowEditRule(true);
   };
 
@@ -75,7 +75,14 @@ const RuleChains = () => {
   }
 
   if (showEditRule) {
-    return <EditRuleComponent onBack={handleBackToRuleChains} ruleChainId={ruleToEdit} />;
+    return (
+      <EditRuleComponent
+        onBack={handleBackToRuleChains}
+        ruleChainId={ruleToEdit.ruleChainId}
+        initialName={ruleToEdit.name}
+        initialDescription={ruleToEdit.description}
+      />
+    );
   }
 
   return (
@@ -105,7 +112,7 @@ const RuleChains = () => {
               <td>{ruleChain.description}</td>
               <td>{ruleChain.isActive ? 'Active' : 'Inactive'}</td>
               <td>
-                <button onClick={() => handleEditRule(ruleChain.ruleChainId)} className="edit-button">
+                <button onClick={() => handleEditRule(ruleChain)} className="edit-button">
                   Edit
                 </button>
               </td>

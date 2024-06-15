@@ -12,7 +12,7 @@ import SendEmailModalContent from './node-modals/SendEmailModal';
 
 const NODE_WIDTH = 150; // Define a fixed width for all nodes
 
-const EditCanvas = ({ initialNodes = [], initialConnections = [], existingRuleChainId }) => { // ADDED existingRuleChainId
+const EditCanvas = ({ initialNodes = [], initialConnections = [], existingRuleChainId, ruleName, ruleDescription }) => { // ADDED ruleName and ruleDescription
   const [nodes, setNodes] = useState([]);
   const [connections, setConnections] = useState([]);
   const [connecting, setConnecting] = useState(false);
@@ -166,8 +166,8 @@ const EditCanvas = ({ initialNodes = [], initialConnections = [], existingRuleCh
   const handleSave = async () => {
     const payload = {
       ruleChainId: existingRuleChainId, // Ensure you pass the ruleChainId
-      name: "Example Rule Chain 2",
-      description: "This is an example rule chain with a listening node, email creation node, and email sending node.",
+      name: ruleName, // Use the ruleName from props
+      description: ruleDescription, // Use the ruleDescription from props
       nodes: nodes.map(node => {
         const configuration = {
           apiEndpoint: node.apiEndpoint || "",
@@ -185,7 +185,7 @@ const EditCanvas = ({ initialNodes = [], initialConnections = [], existingRuleCh
           }));
 
         return {
-          ruleNodeId: 0,
+          ruleNodeId: node.ruleNodeId, // Use the existing ruleNodeId
           nodeUUID: node.id, // Added nodeUUID field
           nodeType: node.type,
           configurationJson: JSON.stringify(configuration),
