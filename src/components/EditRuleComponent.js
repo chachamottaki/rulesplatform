@@ -3,7 +3,7 @@ import axios from 'axios';
 import EditCanvas from '../components/EditCanvas'; // Make sure to use EditCanvas
 import NodeSidebar from '../components/NodeSidebar';
 import { Button, Form } from 'react-bootstrap'; // Import Form for input fields
-import '../res/EditRuleComponent.css'; // Import the CSS file
+import '../res/styles/EditRuleComponent.css'; // Import the CSS file
 
 const EditRuleComponent = ({ onBack, ruleChainId, initialName, initialDescription }) => {
   const [name, setName] = useState(initialName); // State for name

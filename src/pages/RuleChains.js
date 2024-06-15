@@ -2,17 +2,17 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Modal, Button } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import '../res/RuleChains.css'; // Import the CSS file
-import CreateRuleComponent from '../components/CreateRuleComponent'; // Import the CreateRuleComponent
-import EditRuleComponent from '../components/EditRuleComponent'; // Import the EditRuleComponent
+import '../res/styles/RuleChains.css';
+import CreateRuleComponent from '../components/CreateRuleComponent';
+import EditRuleComponent from '../components/EditRuleComponent';
 
 const RuleChains = () => {
   const [ruleChains, setRuleChains] = useState([]);
-  const [showCreateRule, setShowCreateRule] = useState(false); // State to show CreateRuleComponent
-  const [showEditRule, setShowEditRule] = useState(false); // State to show EditRuleComponent
-  const [showDeleteModal, setShowDeleteModal] = useState(false); // State to show delete confirmation modal
-  const [ruleToDelete, setRuleToDelete] = useState(null); // State to store the rule to be deleted
-  const [ruleToEdit, setRuleToEdit] = useState(null); // State to store the rule to be edited
+  const [showCreateRule, setShowCreateRule] = useState(false);
+  const [showEditRule, setShowEditRule] = useState(false); 
+  const [showDeleteModal, setShowDeleteModal] = useState(false); 
+  const [ruleToDelete, setRuleToDelete] = useState(null);
+  const [ruleToEdit, setRuleToEdit] = useState(null); 
 
   useEffect(() => {
     fetchRuleChains();
@@ -20,7 +20,7 @@ const RuleChains = () => {
 
   const fetchRuleChains = async () => {
     try {
-      const response = await axios.get('https://localhost:7113/api/RuleChains'); // Update with your backend endpoint
+      const response = await axios.get('https://localhost:7113/api/RuleChains'); 
       setRuleChains(response.data);
     } catch (error) {
       console.error('Error fetching rule chains:', error.response ? error.response.data : error.message);
@@ -59,7 +59,7 @@ const RuleChains = () => {
     try {
       await axios.delete(`https://localhost:7113/api/RuleChains/${ruleToDelete.ruleChainId}`);
       handleCloseDeleteModal();
-      fetchRuleChains(); // Refetch the rules after deletion
+      fetchRuleChains();
     } catch (error) {
       console.error('Error deleting rule chain:', error.response ? error.response.data : error.message);
     }

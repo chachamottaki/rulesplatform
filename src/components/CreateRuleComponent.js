@@ -2,7 +2,7 @@ import React from 'react';
 import Canvas from '../components/Canvas';
 import NodeSidebar from '../components/NodeSidebar';
 import { Button } from 'react-bootstrap';
-import '../res/CreateRuleComponent.css'; // Import the CSS file
+import '../res/styles/CreateRuleComponent.css'; // Import the CSS file
 
 const CreateRuleComponent = ({ onBack }) => {
   return (

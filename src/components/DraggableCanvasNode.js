@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useDrag } from 'react-dnd';
 import { NodeTypes } from './NodeTypes';
-import '../res/NodeSidebar.css'; 
-import '../res/DraggableCanvasNode.css';
+import '../res/styles/NodeSidebar.css'; 
+import '../res/styles/DraggableCanvasNode.css';
 
 const NODE_WIDTH = 150; // Define a fixed width for all nodes
 
