@@ -1,0 +1,81 @@
+/* Sidebar styling */
+.sidebar {
+    width: 250px;
+    position: fixed;
+    left: 0;
+    top: 60px;  /* Adjust the top position to be below the header */
+    bottom: 0;
+    background-color: #ffffff;
+    padding: 20px;
+    border-right: 1px solid #e0e0e0;
+    font-family: 'Arial', sans-serif;
+    font-size: 14px;
+    color: #333;
+    z-index: 1000;  /* Ensure sidebar is above other content */
+  }
+  
+  .sidebar h3 {
+    margin-top: 0;
+    margin-bottom: 20px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .sidebar ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .sidebar ul li {
+    margin: 10px 0;
+  }
+  
+  .sidebar ul li a {
+    text-decoration: none;
+    color: #333;
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-radius: 4px;
+    transition: background-color 0.3s, color 0.3s;
+  }
+  
+  .sidebar ul li a:hover {
+    background-color: #f0f0f0;
+  }
+  
+  .sidebar ul li a .icon {
+    margin-right: 10px;
+    font-size: 18px;
+    color: #243c70; /* Set the icon color to blue */
+  }
+  
+  /* Active link styling */
+  .sidebar ul li a.active {
+    background-color: #e0e0e0;
+    font-weight: bold;
+  }
+  
+  .sidebar ul li a.active .icon {
+    color: #0069b4; /* Ensure active icon color remains blue */
+  }
+  
+  ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  li {
+    margin: 10px 0;
+    padding: 10px;
+    background-color: #f0f0f0;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  
+  li.active {
+    background-color: #e0e0e0;
+    font-weight: bold;
+  }

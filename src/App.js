@@ -9,16 +9,9 @@ import Header from './components/Header';
 //import ToolbarComponent from './components/ToolbarComponent';
 import DeviceConfig from './pages/DeviceConfig';
 import RuleChains from './pages/RuleChains';
-import axios from 'axios';
+import LogsComponent from './components/LogsComponent';
 
 function App() {
-  /*useEffect(() => {
-    axios.get('https://localhost:7113')
-      .then((response) => {
-        console.log(response.data);
-      });
-  }, []);*/
-
   return (
     <DndProvider backend={HTML5Backend}>
       <Router>
@@ -30,6 +23,7 @@ function App() {
               <Routes>
                 <Route path="/" element={<DeviceConfig />} />
                 <Route path="/rule-chains" element={<RuleChains />} />
+                <Route path="/logs" component={<LogsComponent/>} />
               </Routes>
             </div>
           </div>

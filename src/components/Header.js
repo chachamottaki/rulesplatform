@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import Logo from '../res/nmbs-sncb-logo-white.png';
+import Logo from '../res/img/nmbs-sncb-logo-white.png';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 
 const Header = () => {
