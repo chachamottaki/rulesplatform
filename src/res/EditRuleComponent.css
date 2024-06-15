@@ -1,0 +1,35 @@
+.edit-rule-container {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .back-button {
+    padding: 5px 10px;
+    margin: 10px;
+    border-radius: 8px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+    align-self: flex-start;
+  }
+  
+  .back-button:hover {
+    opacity: 0.8;
+  }
+  
+  .main-content {
+    display: flex;
+    flex-direction: row;
+    margin-top: 0px;
+  }
+  
+  .nodes-sidebar-container {
+    width: 250px; /* Adjust the width as needed */
+  }
+  
+  .canvas-container {
+    flex: 1;
+    margin-left: 20px; /* Add some margin to the left for better spacing */
+  }
+  
