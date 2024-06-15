@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import EditCanvas from '../components/EditCanvas';
+import EditCanvas from '../components/EditCanvas'; // Make sure to use EditCanvas
 import NodeSidebar from '../components/NodeSidebar';
 import { Button } from 'react-bootstrap';
 import '../res/EditRuleComponent.css'; // Import the CSS file
@@ -25,6 +25,7 @@ const EditRuleComponent = ({ onBack, ruleChainId }) => {
           type: node.nodeType,
           left: node.left || 0, // Default to 0 if not set
           top: node.top || 0, // Default to 0 if not set
+          ruleNodeId: node.ruleNodeId, // INCLUDE THE EXISTING NODE ID
           ...config
         };
       });
@@ -51,7 +52,7 @@ const EditRuleComponent = ({ onBack, ruleChainId }) => {
           <NodeSidebar />
         </div>
         <div className="canvas-container">
-          <EditCanvas initialNodes={nodes} initialConnections={connections} />
+          <EditCanvas initialNodes={nodes} initialConnections={connections} existingRuleChainId={ruleChainId} /> {/* PASS existingRuleChainId */}
         </div>
       </div>
     </div>

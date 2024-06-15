@@ -12,7 +12,7 @@ import SendEmailModalContent from './node-modals/SendEmailModal';
 
 const NODE_WIDTH = 150; // Define a fixed width for all nodes
 
-const EditCanvas = ({ initialNodes = [], initialConnections = [] }) => {
+const EditCanvas = ({ initialNodes = [], initialConnections = [], existingRuleChainId }) => { // ADDED existingRuleChainId
   const [nodes, setNodes] = useState([]);
   const [connections, setConnections] = useState([]);
   const [connecting, setConnecting] = useState(false);
@@ -165,7 +165,8 @@ const EditCanvas = ({ initialNodes = [], initialConnections = [] }) => {
 
   const handleSave = async () => {
     const payload = {
-      name: "Example Rule Chain",
+      ruleChainId: existingRuleChainId, // Ensure you pass the ruleChainId
+      name: "Example Rule Chain 2",
       description: "This is an example rule chain with a listening node, email creation node, and email sending node.",
       nodes: nodes.map(node => {
         const configuration = {
@@ -176,30 +177,30 @@ const EditCanvas = ({ initialNodes = [], initialConnections = [] }) => {
           subject: node.subject || "",
           content: node.content || ""
         };
-  
+
         const nodeConnections = connections
           .filter(conn => conn.start.nodeId === node.id)
           .map(conn => ({
             targetNodeIndex: conn.end.nodeId // Keeping this as a string as per your last note
           }));
-  
+
         return {
           ruleNodeId: 0,
           nodeUUID: node.id, // Added nodeUUID field
           nodeType: node.type,
           configurationJson: JSON.stringify(configuration),
           nodeConnections,
-          ruleChainID: 0,
+          ruleChainID: existingRuleChainId, // Pass the ruleChainID
           left: node.left, // Add the left position
           top: node.top // Add the top position
         };
       })
     };
-  
+
     console.log('Payload:', JSON.stringify(payload, null, 2)); // Log payload for debugging
-  
+
     try {
-      const response = await axios.put('https://localhost:7113/api/RuleChains', payload, {
+      const response = await axios.put(`https://localhost:7113/api/RuleChains/${existingRuleChainId}`, payload, {
         headers: {
           'Content-Type': 'application/json'
         }
@@ -208,7 +209,7 @@ const EditCanvas = ({ initialNodes = [], initialConnections = [] }) => {
     } catch (error) {
       console.error('Error saving rule chain:', error.response ? error.response.data : error.message);
     }
-  };
+};
 
   return (
     <div ref={canvasRef} onMouseMove={handleMouseMove}>
