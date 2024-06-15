@@ -5,6 +5,8 @@
   
   .rule-chains-page h2 {
     margin-bottom: 20px;
+    font-size: 24px;
+    text-align: left; 
   }
   
   .custom-table {

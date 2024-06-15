@@ -1,14 +1,53 @@
 /* LogsComponent.css */
 .logs-container {
-    margin-top: 40px;
-    padding: 20px;
+    margin-top: 100px; /* Add margin to create space between the rules table and logs table */
   }
   
-  .back-button {
+  .logs-container h2 {
     margin-bottom: 20px;
+    font-size: 24px;
+    text-align: left;
   }
   
   .table {
-    margin-top: 20px;
+    width: 100%;
+    border-collapse: separate; /* Ensure borders are separate for rounding */
+    border-spacing: 0; /* Remove spacing between cells */
+    border: 1px solid #dee2e6;
+    background-color: white;
+    border-radius: 8px; /* Add rounded corners */
+    overflow: hidden; /* Ensure content stays within rounded corners */
+  }
+  
+  .table th,
+  .table td {
+    border: 1px solid #dee2e6;
+    padding: 8px;
+    text-align: center;
+    background-color: white;
+  }
+  
+  .table th {
+    background-color: #f8f9fa;
+  }
+  
+  .table tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+  
+  .table thead tr:first-child th:first-child {
+    border-top-left-radius: 8px; /* Top left corner */
+  }
+  
+  .table thead tr:first-child th:last-child {
+    border-top-right-radius: 8px; /* Top right corner */
+  }
+  
+  .table tbody tr:last-child td:first-child {
+    border-bottom-left-radius: 8px; /* Bottom left corner */
+  }
+  
+  .table tbody tr:last-child td:last-child {
+    border-bottom-right-radius: 8px; /* Bottom right corner */
   }
   

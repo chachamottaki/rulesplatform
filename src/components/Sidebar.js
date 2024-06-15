@@ -18,11 +18,11 @@ const Sidebar = () => {
             <i className="fas fa-sitemap icon"></i><span className="nav-text">Rule Chains</span>
           </Link>
         </li>
-        <li>
+        {/*<li>
           <Link to="/logs">
             <i className="fa-regular fa-file-lines icon"></i><span className="nav-text">Logs</span>
           </Link>
-        </li>
+        </li>*/}
       </ul>
     </div>
   );

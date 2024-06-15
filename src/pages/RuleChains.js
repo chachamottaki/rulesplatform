@@ -1,3 +1,4 @@
+// RuleChains.jsx
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Modal, Button } from 'react-bootstrap';
@@ -5,14 +6,15 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import '../res/styles/RuleChains.css';
 import CreateRuleComponent from '../components/CreateRuleComponent';
 import EditRuleComponent from '../components/EditRuleComponent';
+import LogsComponent from '../components/LogsComponent'; // Import the LogsComponent
 
 const RuleChains = () => {
   const [ruleChains, setRuleChains] = useState([]);
   const [showCreateRule, setShowCreateRule] = useState(false);
-  const [showEditRule, setShowEditRule] = useState(false); 
-  const [showDeleteModal, setShowDeleteModal] = useState(false); 
+  const [showEditRule, setShowEditRule] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [ruleToDelete, setRuleToDelete] = useState(null);
-  const [ruleToEdit, setRuleToEdit] = useState(null); 
+  const [ruleToEdit, setRuleToEdit] = useState(null);
 
   useEffect(() => {
     fetchRuleChains();
@@ -20,7 +22,7 @@ const RuleChains = () => {
 
   const fetchRuleChains = async () => {
     try {
-      const response = await axios.get('https://localhost:7113/api/RuleChains'); 
+      const response = await axios.get('https://localhost:7113/api/RuleChains');
       setRuleChains(response.data);
     } catch (error) {
       console.error('Error fetching rule chains:', error.response ? error.response.data : error.message);
@@ -87,6 +89,7 @@ const RuleChains = () => {
 
   return (
     <div className="rule-chains-page">
+      <h2>Rules</h2>
       <table className="custom-table">
         <thead>
           <tr>
@@ -129,7 +132,8 @@ const RuleChains = () => {
         Create Rule
       </button>
 
-      {/* Delete Confirmation Modal */}
+      <LogsComponent /> {/* Include the LogsComponent here */}
+
       <Modal show={showDeleteModal} onHide={handleCloseDeleteModal}>
         <Modal.Header closeButton>
           <Modal.Title>Confirm Delete</Modal.Title>

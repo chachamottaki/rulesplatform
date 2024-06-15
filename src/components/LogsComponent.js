@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Table, Button } from 'react-bootstrap';
+import { Table } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../res/styles/LogsComponent.css'; // Import the CSS file
 
-const LogsComponent = ({ onBack }) => {
+const LogsComponent = () => {
   const [logs, setLogs] = useState([]);
 
   useEffect(() => {
@@ -13,7 +13,7 @@ const LogsComponent = ({ onBack }) => {
 
   const fetchLogs = async () => {
     try {
-      const response = await axios.get('https://localhost:7113/api/Logs'); // Update with your backend endpoint
+      const response = await axios.get('https://localhost:7113/api/RuleChains/logs'); // Update with your backend endpoint
       setLogs(response.data);
     } catch (error) {
       console.error('Error fetching logs:', error.response ? error.response.data : error.message);
@@ -22,6 +22,7 @@ const LogsComponent = ({ onBack }) => {
 
   return (
     <div className="logs-container">
+      <h2>Logs</h2>
       <Table striped bordered hover>
         <thead>
           <tr>
@@ -38,9 +39,9 @@ const LogsComponent = ({ onBack }) => {
           {logs.map((log) => (
             <tr key={log.id}>
               <td>{log.isAlarm ? 'Yes' : 'No'}</td>
-              <td>{log.alarmID}</td>
-              <td>{log.assetID}</td>
-              <td>{log.deviceID}</td>
+              <td>{log.alarmId}</td>
+              <td>{log.assetId}</td>
+              <td>{log.deviceId}</td>
               <td>{log.emailContent}</td>
               <td>{log.emailRecipient}</td>
               <td>{new Date(log.timestamp).toLocaleString()}</td>
