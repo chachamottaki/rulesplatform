@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useDrop } from 'react-dnd';
 import axios from 'axios';
 import DraggableCanvasNode from './DraggableCanvasNode';
@@ -12,7 +12,7 @@ import SendEmailModalContent from './node-modals/SendEmailModal';
 
 const NODE_WIDTH = 150; // Define a fixed width for all nodes
 
-const Canvas = () => {
+const Canvas = ({ ruleName, ruleDescription }) => { // Accept props
   const [nodes, setNodes] = useState([]);
   const [connections, setConnections] = useState([]);
   const [connecting, setConnecting] = useState(false);
@@ -38,7 +38,7 @@ const Canvas = () => {
           const existingIndex = oldNodes.findIndex(node => node.id === item.id);
           if (existingIndex !== -1) {
             const updatedNodes = [...oldNodes];
-            updatedNodes[existingIndex] = { ...item, left, top, width: NODE_WIDTH }; // Ensure node has the fixed width
+            updatedNodes[existingIndex] = { ...item, left, top, width: NODE_WIDTH };
             return updatedNodes;
           } else {
             return [...oldNodes, { ...item, id: item.id || Math.random(), left, top, width: NODE_WIDTH, apiEndpoint: '', script: '', recipient: '', sender: '', subject: '', content: '' }];
@@ -79,8 +79,8 @@ const Canvas = () => {
     if (!node) return;
 
     const connectorLeft = left;
-    const connectorRight = left + NODE_WIDTH; // Use the fixed node width
-    const connectorTop = top + 25; // Adjust this value based on your node height
+    const connectorRight = left + NODE_WIDTH;
+    const connectorTop = top + 25;
 
     setConnections(oldConnections => oldConnections.map(conn => {
       if (conn.start.nodeId === nodeId) {
@@ -88,8 +88,8 @@ const Canvas = () => {
           ...conn,
           start: {
             ...conn.start,
-            x: connectorRight, // Recalculating the x position of the start connector
-            y: connectorTop,   // Recalculating the y position of the start connector
+            x: connectorRight,
+            y: connectorTop,
           }
         };
       }
@@ -98,8 +98,8 @@ const Canvas = () => {
           ...conn,
           end: {
             ...conn.end,
-            x: connectorLeft, // Recalculating the x position of the end connector
-            y: connectorTop,  // Recalculating the y position of the end connector
+            x: connectorLeft,
+            y: connectorTop,
           }
         };
       }
@@ -163,8 +163,8 @@ const Canvas = () => {
 
   const handleSave = async () => {
     const payload = {
-      name: "Example Rule Chain",
-      description: "This is an example rule chain with a listening node, email creation node, and email sending node.",
+      name: ruleName,
+      description: ruleDescription,
       nodes: nodes.map(node => {
         const configuration = {
           apiEndpoint: node.apiEndpoint || "",
@@ -183,7 +183,7 @@ const Canvas = () => {
 
         return {
           ruleNodeId: 0,
-          nodeUUID: node.id, // Added nodeUUID field
+          nodeUUID: node.id,
           nodeType: node.type,
           configurationJson: JSON.stringify(configuration),
           nodeConnections,
@@ -192,7 +192,7 @@ const Canvas = () => {
       })
     };
 
-    console.log('Payload:', JSON.stringify(payload, null, 2)); // Log payload for debugging
+    console.log('Payload:', JSON.stringify(payload, null, 2));
 
     try {
       const response = await axios.post('https://localhost:7113/api/RuleChains', payload, {
@@ -222,9 +222,9 @@ const Canvas = () => {
             onStartConnection={startConnection}
             onEndConnection={endConnection}
             onDoubleClickNode={toggleModal}
-            onUpdatePosition={updateConnectorPosition} // Propagate position updates
-            onDeleteNode={handleDeleteNode} // Pass handleDeleteNode
-            width={NODE_WIDTH} // Ensure node has the fixed width
+            onUpdatePosition={updateConnectorPosition}
+            onDeleteNode={handleDeleteNode}
+            width={NODE_WIDTH}
           />
         ))}
         <Button onClick={handleSave} style={{ position: 'absolute', bottom: '10px', right: '10px' }}>
