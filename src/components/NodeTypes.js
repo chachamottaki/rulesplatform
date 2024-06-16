@@ -3,9 +3,9 @@ export const NodeTypes = {
   OUTPUT: 'output',
   UPLOAD: 'upload',
   PROCESS: 'process',
-  LISTENING:'listening',
-  CONDITION:'condition',
-  CREATEMAIL:'emailcreation',
-  SENDEMAIL:'emailsending',
+  LISTENING:'Listening',
+  CONDITION:'ConditionCheck',
+  CREATEMAIL:'EmailCreation',
+  SENDEMAIL:'EmailSending',
   DEFAULT: 'default'
 };

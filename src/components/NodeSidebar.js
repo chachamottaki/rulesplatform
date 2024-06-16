@@ -5,10 +5,10 @@ import '../res/styles/NodeSidebar.css'; // Import the CSS file
 
 const NodeSidebar = () => {
   const nodes = [
-    { name: 'Listen', type: 'listening' },
-    { name: 'Condition', type: 'condition' },
-    { name: 'Create e-mail', type: 'emailcreation' },
-    { name: 'Send e-mail', type: 'emailsending' },
+    { name: 'Listen', type: 'Listening' },
+    { name: 'Condition', type: 'ConditionCheck' },
+    { name: 'Create e-mail', type: 'EmailCreation' },
+    { name: 'Send e-mail', type: 'EmailSending' },
     // add more nodes
   ];
 
