@@ -55,13 +55,13 @@ const Canvas = ({ ruleName, ruleDescription }) => { // Accept props
   const startConnection = (nodeId, connectorType, x, y) => {
     const canvasRect = canvasRef.current.getBoundingClientRect();
     setConnecting(true);
-    setStartConnector({ nodeId, connectorType, x: x - canvasRect.left, y: y - canvasRect.top });
+    setStartConnector({ nodeId, connectorType, x: x - canvasRect.left + 20, y: y - canvasRect.top +20 });
   };
 
   const endConnection = (nodeId, connectorType, x, y) => {
     if (connecting && startConnector.nodeId !== nodeId) {
       const canvasRect = canvasRef.current.getBoundingClientRect();
-      setConnections([...connections, { start: startConnector, end: { nodeId, connectorType, x: x - canvasRect.left, y: y - canvasRect.top } }]);
+      setConnections([...connections, { start: startConnector, end: { nodeId, connectorType, x: x - canvasRect.left +18, y: y - canvasRect.top + 18} }]);
       setConnecting(false);
       setStartConnector(null);
     }
