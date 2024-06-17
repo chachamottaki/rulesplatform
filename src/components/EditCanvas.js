@@ -12,7 +12,7 @@ import SendEmailModalContent from './node-modals/SendEmailModal';
 
 const NODE_WIDTH = 150; // Define a fixed width for all nodes
 
-const EditCanvas = ({ initialNodes = [], initialConnections = [], existingRuleChainId, ruleName, ruleDescription }) => { // ADDED ruleName and ruleDescription
+const EditCanvas = ({ initialNodes, initialConnections, existingRuleChainId, ruleName, ruleDescription }) => { // ADDED ruleName and ruleDescription
   const [nodes, setNodes] = useState([]);
   const [connections, setConnections] = useState([]);
   const [connecting, setConnecting] = useState(false);
