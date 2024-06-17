@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Form, Button, Dropdown, DropdownButton } from 'react-bootstrap';
 
 const ConditionModalContent = ({ node, saveScript }) => {
-  const predefinedScript = '(sendEmailValue && !invertSendEmail) || (!sendEmailValue && invertSendEmail)';
+  const predefinedScript = '(sendEmail && !invertSendEmail) || (!sendEmail && invertSendEmail)';
   const [script, setScript] = useState(predefinedScript);
 
   useEffect(() => {
