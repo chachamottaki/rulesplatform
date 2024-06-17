@@ -7,22 +7,22 @@ const ConditionModalContent = ({ node, saveScript }) => {
 
   useEffect(() => {
     if (node) {
-      setScript(node.script || predefinedScript);
-      saveScript(node.id, node.script || predefinedScript); // Save the script from node or default predefined script
+      const initialScript = node.script || predefinedScript;
+      setScript(initialScript); // Set the initial script without saving it
     }
-  }, [node, saveScript, predefinedScript]);
+  }, [node, predefinedScript]);
 
   const handleInputChange = (e) => {
     setScript(e.target.value);
   };
 
   const handleInsertPlaceholder = (placeholder) => {
-    setScript(script + placeholder);
+    setScript(prevScript => `${prevScript}${placeholder}`);
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    saveScript(node.id, script);
+    saveScript(node.id, script); // Save the script only on form submission
   };
 
   return (
@@ -35,13 +35,14 @@ const ConditionModalContent = ({ node, saveScript }) => {
             rows={3}
             value={script}
             onChange={handleInputChange}
+            placeholder="Enter your condition script here"
           />
           <DropdownButton
             id="dropdown-basic-button"
             title="Insert Placeholder"
             className="mt-2"
           >
-            <Dropdown.Item onClick={() => handleInsertPlaceholder('sendEmailValue')}>sendEmailValue</Dropdown.Item>
+            <Dropdown.Item onClick={() => handleInsertPlaceholder('sendEmail')}>sendEmail</Dropdown.Item>
             <Dropdown.Item onClick={() => handleInsertPlaceholder('invertSendEmail')}>invertSendEmail</Dropdown.Item>
           </DropdownButton>
         </Form.Group>
