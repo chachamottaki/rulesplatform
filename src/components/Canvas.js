@@ -4,7 +4,7 @@ import axios from 'axios';
 import DraggableCanvasNode from './DraggableCanvasNode';
 import Arrow from './Arrow';
 import { NodeTypes } from './NodeTypes';
-import { Modal, Button } from 'react-bootstrap';
+import { Modal, Button, Alert } from 'react-bootstrap';
 import ListeningModalContent from './node-modals/ListeningModal';
 import ConditionModalContent from './node-modals/ConditionModal';
 import CreateEmailModalContent from './node-modals/CreateEmailModal';
@@ -23,6 +23,7 @@ const Canvas = ({ ruleName, ruleDescription }) => { // Accept props
   const [showCreateEmailModal, setShowCreateEmailModal] = useState(false);
   const [showSendEmailModal, setShowSendEmailModal] = useState(false);
   const [selectedNode, setSelectedNode] = useState(null);
+  const [showSuccessMessage, setShowSuccessMessage] = useState(false); // Add state for success message
 
   const canvasRef = useRef(null);
 
@@ -206,6 +207,8 @@ const Canvas = ({ ruleName, ruleDescription }) => { // Accept props
         }
       });
       console.log('Saved successfully:', response.data);
+      setShowSuccessMessage(true); // Show success message
+      setTimeout(() => setShowSuccessMessage(false), 3000); // Hide after 3 seconds
     } catch (error) {
       console.error('Error saving rule chain:', error.response ? error.response.data : error.message);
     }
@@ -235,6 +238,11 @@ const Canvas = ({ ruleName, ruleDescription }) => { // Accept props
         <Button onClick={handleSave} style={{ position: 'absolute', bottom: '10px', right: '10px' }}>
           Save Rule Chain
         </Button>
+        {showSuccessMessage && ( // Conditionally render success message
+          <Alert variant="success" style={{ position: 'absolute', bottom: '50px', right: '10px' }}>
+            Rule Chain saved successfully!
+          </Alert>
+        )}
       </div>
 
       <Modal show={showListeningModal} onHide={closeModal} backdrop="static" centered>
