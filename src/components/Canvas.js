@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import { useDrop } from 'react-dnd';
 import axios from 'axios';
 import DraggableCanvasNode from './DraggableCanvasNode';
@@ -30,9 +30,12 @@ const Canvas = ({ ruleName, ruleDescription }) => { // Accept props
     accept: Object.values(NodeTypes),
     drop: (item, monitor) => {
       const delta = monitor.getDifferenceFromInitialOffset();
-      if (delta) {
-        const left = Math.round((item.left || 0) + delta.x);
-        const top = Math.round((item.top || 0) + delta.y);
+      const initialOffset = monitor.getInitialClientOffset();
+      const canvasRect = canvasRef.current.getBoundingClientRect();
+
+      if (delta && initialOffset && canvasRect) {
+        const left = Math.round(initialOffset.x - canvasRect.left + delta.x);
+        const top = Math.round(initialOffset.y - canvasRect.top + delta.y);
 
         setNodes(oldNodes => {
           const existingIndex = oldNodes.findIndex(node => node.id === item.id);
@@ -55,13 +58,13 @@ const Canvas = ({ ruleName, ruleDescription }) => { // Accept props
   const startConnection = (nodeId, connectorType, x, y) => {
     const canvasRect = canvasRef.current.getBoundingClientRect();
     setConnecting(true);
-    setStartConnector({ nodeId, connectorType, x: x - canvasRect.left + 20, y: y - canvasRect.top +20 });
+    setStartConnector({ nodeId, connectorType, x: x - canvasRect.left + 20, y: y - canvasRect.top + 20 });
   };
 
   const endConnection = (nodeId, connectorType, x, y) => {
     if (connecting && startConnector.nodeId !== nodeId) {
       const canvasRect = canvasRef.current.getBoundingClientRect();
-      setConnections([...connections, { start: startConnector, end: { nodeId, connectorType, x: x - canvasRect.left +18, y: y - canvasRect.top + 18} }]);
+      setConnections([...connections, { start: startConnector, end: { nodeId, connectorType, x: x - canvasRect.left + 18, y: y - canvasRect.top + 18 } }]);
       setConnecting(false);
       setStartConnector(null);
     }
@@ -187,7 +190,9 @@ const Canvas = ({ ruleName, ruleDescription }) => { // Accept props
           nodeType: node.type,
           configurationJson: JSON.stringify(configuration),
           nodeConnections,
-          ruleChainID: 0
+          ruleChainID: 0,
+          left: node.left, // Add the left position
+          top: node.top // Add the top position
         };
       })
     };
