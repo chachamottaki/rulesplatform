@@ -208,7 +208,10 @@ const Canvas = ({ ruleName, ruleDescription }) => { // Accept props
       });
       console.log('Saved successfully:', response.data);
       setShowSuccessMessage(true); // Show success message
-      setTimeout(() => setShowSuccessMessage(false), 3000); // Hide after 3 seconds
+      setTimeout(() => {
+        setShowSuccessMessage(false); // Hide after 3 seconds
+        window.location.reload(); // Reload the page
+      }, 1000); 
     } catch (error) {
       console.error('Error saving rule chain:', error.response ? error.response.data : error.message);
     }
