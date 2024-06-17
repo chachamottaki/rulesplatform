@@ -4,7 +4,7 @@ import axios from 'axios';
 import DraggableCanvasNode from './DraggableCanvasNode';
 import Arrow from './Arrow';
 import { NodeTypes } from './NodeTypes';
-import { Modal, Button } from 'react-bootstrap';
+import { Modal, Button, Alert } from 'react-bootstrap';
 import ListeningModalContent from './node-modals/ListeningModal';
 import ConditionModalContent from './node-modals/ConditionModal';
 import CreateEmailModalContent from './node-modals/CreateEmailModal';
@@ -23,6 +23,7 @@ const EditCanvas = ({ initialNodes, initialConnections, existingRuleChainId, rul
   const [showCreateEmailModal, setShowCreateEmailModal] = useState(false);
   const [showSendEmailModal, setShowSendEmailModal] = useState(false);
   const [selectedNode, setSelectedNode] = useState(null);
+  const [showSuccessMessage, setShowSuccessMessage] = useState(false); // State to manage success message visibility
 
   const canvasRef = useRef(null);
 
@@ -211,14 +212,21 @@ const EditCanvas = ({ initialNodes, initialConnections, existingRuleChainId, rul
         }
       });
       console.log('Saved successfully:', response.data);
+      setShowSuccessMessage(true); // Show success message
+      setTimeout(() => setShowSuccessMessage(false), 3000); // Hide success message after 3 seconds
     } catch (error) {
       console.error('Error saving rule chain:', error.response ? error.response.data : error.message);
     }
-};
+  };
 
   return (
     <div ref={canvasRef} onMouseMove={handleMouseMove}>
       <div ref={drop} className="canvas-area">
+        {showSuccessMessage && (
+          <Alert variant="success" className="success-alert" style={{ position: 'absolute', top: '10px', right: '10px', zIndex: 1000 }}>
+            Rule edited successfully!
+          </Alert>
+        )}
         {connections.map((conn, index) => (
           <Arrow key={index} start={{ x: nodes.find(node => node.id === conn.start.nodeId)?.left + NODE_WIDTH, y: nodes.find(node => node.id === conn.start.nodeId)?.top + 25 }} end={{ x: nodes.find(node => node.id === conn.end.nodeId)?.left, y: nodes.find(node => node.id === conn.end.nodeId)?.top + 25 }} />
         ))}
